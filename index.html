@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Victor Gateau — Démo CV premium</title>
+<style>
+:root {
+  --bg: #081422;
+  --bg-2: #0d1a2b;
+  --panel: #111f31;
+  --panel-soft: #142438;
+  --line: rgba(255,255,255,.095);
+  --text: #f5f7fb;
+  --muted: #a8b5c7;
+  --green: #65dfba;
+  --blue: #5f9df7;
+  --purple: #bc70f2;
+  --orange: #f0aa2a;
+  --shadow: 0 22px 65px rgba(0,0,0,.28);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background:
+    radial-gradient(circle at 15% 8%, rgba(76,110,190,.14), transparent 31%),
+    radial-gradient(circle at 88% 13%, rgba(63,180,151,.08), transparent 28%),
+    linear-gradient(180deg, #0a1423 0%, #07111d 100%);
+}
+a { color: inherit; text-decoration: none; }
+button { font: inherit; }
+.page { width: min(1440px, calc(100% - 42px)); margin: auto; }
+.nav {
+  position: sticky; top: 0; z-index: 50;
+  border-bottom: 1px solid var(--line);
+  background: rgba(7,15,27,.82);
+  backdrop-filter: blur(18px);
+}
+.nav-inner {
+  min-height: 72px; display: flex; align-items: center; justify-content: space-between;
+}
+.brand { font-weight: 900; font-size: 1.15rem; letter-spacing: -.04em; }
+.brand span { color: var(--green); }
+.nav-links { display: flex; gap: 34px; color: #c3ccda; font-size: .92rem; }
+.nav-links a:hover { color: #fff; }
+
+.hero { padding: 62px 0 34px; }
+.hero-grid {
+  display: grid; grid-template-columns: 1.13fr .87fr; gap: 44px; align-items: center;
+}
+.status {
+  display: inline-flex; align-items: center; gap: 10px;
+  border: 1px solid var(--line); border-radius: 999px;
+  padding: 10px 15px; color: #c8d2df; background: rgba(255,255,255,.025);
+  font-size: .88rem;
+}
+.status-dot {
+  width: 9px; height: 9px; border-radius: 50%; background: var(--green);
+  box-shadow: 0 0 0 7px rgba(101,223,186,.09);
+}
+h1 {
+  margin: 28px 0 23px;
+  font-size: clamp(4.4rem, 8vw, 8.7rem);
+  line-height: .82; letter-spacing: -.075em;
+}
+.gradient {
+  background: linear-gradient(110deg, #aabaff, #67a6f2 49%, #6be0b9);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.hero-copy {
+  max-width: 760px; color: var(--muted); font-size: 1.07rem; line-height: 1.72;
+}
+.actions { display: flex; gap: 14px; margin-top: 30px; flex-wrap: wrap; }
+.btn {
+  min-height: 54px; padding: 0 24px; display: inline-flex; align-items: center; gap: 10px;
+  border: 1px solid var(--line); border-radius: 12px; font-weight: 800;
+  background: rgba(8,16,29,.66); transition: .25s ease;
+}
+.btn.primary {
+  color: #06121d; border: 0;
+  background: linear-gradient(105deg, #7ca9f3, #65dfba);
+}
+.btn:hover { transform: translateY(-2px); }
+
+.profile-card {
+  padding: 22px; border-radius: 31px; border: 1px solid rgba(255,255,255,.13);
+  background: linear-gradient(160deg, rgba(255,255,255,.08), rgba(255,255,255,.025));
+  box-shadow: var(--shadow);
+}
+.photo {
+  overflow: hidden; aspect-ratio: 1.46 / 1; border-radius: 22px; background: #d8d5cb;
+}
+.photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 36%; display: block; }
+.profile-card h2 { margin: 24px 0 4px; font-size: 2rem; letter-spacing: -.035em; }
+.profile-role { color: #bdc8d5; }
+.profile-role strong { color: var(--green); font-weight: 500; }
+.badges {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 22px;
+}
+.badge {
+  min-height: 48px; border: 1px solid var(--line); border-radius: 11px;
+  padding: 10px 13px; display: flex; align-items: center; gap: 11px;
+  color: #e1e7ee; background: rgba(255,255,255,.025); font-size: .86rem;
+}
+.badge.wide { grid-column: 1 / -1; }
+.badge-icon { color: #cfe1f7; font-size: 1.05rem; }
+
+.summary-title {
+  margin-top: 22px; display: flex; align-items: center; gap: 10px;
+  color: #fff; font-size: .75rem; font-weight: 850; letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.summary-title::before {
+  content: ""; width: 4px; height: 26px; border-radius: 4px; background: var(--green);
+}
+.summary-grid {
+  display: grid; grid-template-columns: .92fr .96fr 1.43fr .82fr; gap: 16px; margin-top: 14px;
+}
+.panel {
+  border: 1px solid var(--line); border-radius: 18px;
+  background: linear-gradient(155deg, rgba(255,255,255,.055), rgba(255,255,255,.017));
+  box-shadow: 0 15px 40px rgba(0,0,0,.18);
+}
+.summary-panel { min-height: 280px; padding: 22px; }
+.panel-head {
+  display: flex; align-items: center; gap: 11px; margin-bottom: 22px;
+  font-size: .76rem; font-weight: 850; letter-spacing: .05em; text-transform: uppercase;
+}
+.panel-icon {
+  width: 32px; height: 32px; border-radius: 11px; display: grid; place-items: center;
+  color: var(--green); background: rgba(101,223,186,.08);
+}
+.search-title { color: var(--green); font-weight: 850; margin-bottom: 18px; }
+.chips { display: flex; flex-wrap: wrap; gap: 10px; }
+.chip {
+  padding: 9px 11px; border: 1px solid rgba(101,223,186,.18); border-radius: 8px;
+  background: rgba(255,255,255,.025); font-size: .82rem;
+}
+.sector-list, .soft-list { display: grid; gap: 0; }
+.sector, .soft {
+  min-height: 43px; display: flex; align-items: center; gap: 11px;
+  border-bottom: 1px solid rgba(255,255,255,.065); color: #d9e0e8; font-size: .88rem;
+}
+.sector:last-child { border-bottom: 0; }
+.soft { border: 0; min-height: 36px; }
+.soft::before { content: "✓"; color: var(--green); }
+.expertise-columns {
+  display: grid; grid-template-columns: 1.05fr .95fr; gap: 24px;
+}
+.expertise-col + .expertise-col {
+  padding-left: 24px; border-left: 1px solid rgba(255,255,255,.12);
+}
+.expertise-col h3 {
+  margin: 0 0 14px; color: var(--green); font-size: .78rem; letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.expertise-list { display: grid; gap: 13px; }
+.expertise-item {
+  display: flex; align-items: center; gap: 10px; color: #e0e6ed; font-size: .86rem;
+}
+.expertise-item::before {
+  content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--green);
+  box-shadow: 0 0 0 5px rgba(101,223,186,.05);
+}
+.software .expertise-item::before { background: var(--blue); }
+
+.profile360-section {
+  margin: 23px 0 60px; padding: 18px 0 0;
+  border: 1px solid var(--line); border-radius: 24px;
+  background:
+    radial-gradient(circle at 25% 55%, rgba(48,102,175,.08), transparent 32%),
+    linear-gradient(165deg, rgba(255,255,255,.032), rgba(255,255,255,.012));
+  overflow: hidden;
+}
+.profile360-head { padding: 0 28px; text-align: center; }
+.profile360-pill {
+  display: inline-flex; align-items: center; gap: 10px; padding: 8px 14px;
+  border: 1px solid var(--line); border-radius: 999px; color: #b9c7d7;
+  background: rgba(255,255,255,.025); font-size: .82rem;
+}
+.profile360-pill::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--blue); }
+.profile360-head h2 {
+  margin: 13px 0 8px; font-size: clamp(2.2rem, 4.2vw, 4.2rem); letter-spacing: -.045em;
+}
+.profile360-head h2 span { color: var(--blue); }
+.profile360-head p {
+  width: min(860px, 100%); margin: auto; color: var(--muted); line-height: 1.65;
+}
+.profile360-grid {
+  display: grid; grid-template-columns: 1.18fr .82fr; gap: 24px; padding: 34px 28px 28px;
+}
+.wheel-area {
+  min-height: 590px; position: relative; display: grid; grid-template-columns: 1fr 330px 1fr;
+  grid-template-rows: 1fr 1fr; gap: 20px 30px; align-items: center;
+}
+.domain-label {
+  border: 1px solid var(--line); border-radius: 17px; padding: 18px;
+  background: rgba(255,255,255,.02); transition: .25s ease; cursor: pointer;
+}
+.domain-label:hover, .domain-label.active {
+  transform: translateY(-2px); border-color: var(--domain);
+  box-shadow: 0 14px 38px color-mix(in srgb, var(--domain) 16%, transparent);
+}
+.domain-label h3 {
+  margin: 0 0 8px; color: var(--domain); font-size: .85rem; letter-spacing: .03em; text-transform: uppercase;
+}
+.domain-label p { margin: 0; color: #b9c4d0; font-size: .85rem; line-height: 1.52; }
+.domain-label[data-domain="project"] { --domain: var(--orange); grid-column: 1; grid-row: 1; }
+.domain-label[data-domain="finance"] { --domain: var(--blue); grid-column: 3; grid-row: 1; }
+.domain-label[data-domain="commercial"] { --domain: var(--purple); grid-column: 1; grid-row: 2; }
+.domain-label[data-domain="process"] { --domain: var(--green); grid-column: 3; grid-row: 2; }
+.wheel {
+  grid-column: 2; grid-row: 1 / 3; justify-self: center;
+  width: 330px; aspect-ratio: 1; border-radius: 50%; position: relative;
+  background: conic-gradient(var(--blue) 0 25%, var(--orange) 25% 50%, var(--purple) 50% 75%, var(--green) 75%);
+  box-shadow: 0 0 0 8px rgba(255,255,255,.025), 0 20px 55px rgba(0,0,0,.35);
+  overflow: hidden;
+}
+.wheel::before, .wheel::after {
+  content: ""; position: absolute; z-index: 4; background: rgba(7,14,25,.72);
+}
+.wheel::before { width: 2px; top: 0; bottom: 0; left: 50%; }
+.wheel::after { height: 2px; left: 0; right: 0; top: 50%; }
+.wheel-center {
+  position: absolute; inset: 36%; z-index: 8; border-radius: 50%; background: #f5f5f2;
+  color: #0d1724; display: grid; place-items: center; text-align: center;
+  font-weight: 900; font-size: 1.25rem; line-height: 1.05;
+  box-shadow: 0 5px 22px rgba(0,0,0,.25);
+}
+.quadrant {
+  position: absolute; width: 50%; height: 50%; z-index: 6; cursor: pointer;
+  display: grid; place-items: center; color: white; font-weight: 850; text-align: center;
+  transition: filter .22s ease, transform .22s ease;
+}
+.quadrant span { width: 75%; font-size: .79rem; text-shadow: 0 2px 8px rgba(0,0,0,.25); }
+.quadrant:hover, .quadrant.active { filter: brightness(1.16); }
+.quadrant.active { transform: scale(.965); }
+.q-finance { top: 0; right: 0; }
+.q-project { right: 0; bottom: 0; }
+.q-commercial { left: 0; bottom: 0; }
+.q-process { left: 0; top: 0; }
+
+.detail-card {
+  min-height: 590px; border: 1px solid var(--line); border-radius: 18px;
+  padding: 25px; background: linear-gradient(160deg, rgba(255,255,255,.055), rgba(255,255,255,.018));
+  transition: border-color .25s ease, box-shadow .25s ease;
+}
+.detail-card[data-color="blue"] { border-color: rgba(95,157,247,.34); box-shadow: 0 18px 55px rgba(95,157,247,.08); }
+.detail-card[data-color="green"] { border-color: rgba(101,223,186,.34); box-shadow: 0 18px 55px rgba(101,223,186,.08); }
+.detail-card[data-color="purple"] { border-color: rgba(188,112,242,.34); box-shadow: 0 18px 55px rgba(188,112,242,.08); }
+.detail-card[data-color="orange"] { border-color: rgba(240,170,42,.34); box-shadow: 0 18px 55px rgba(240,170,42,.08); }
+.detail-kicker { display: flex; justify-content: space-between; color: #9fb0c4; font-size: .75rem; }
+.detail-card h3 { margin: 21px 0 8px; font-size: 1.4rem; }
+.detail-card > p { color: #bdc8d4; font-size: .91rem; line-height: 1.58; }
+.metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; margin: 20px 0; }
+.metric-box {
+  border: 1px solid var(--line); border-radius: 12px; padding: 14px; background: rgba(0,0,0,.11);
+}
+.metric-box strong { display: block; font-size: 1.02rem; }
+.metric-box span { color: var(--muted); font-size: .75rem; }
+.detail-card h4 {
+  margin: 22px 0 10px; font-size: .76rem; text-transform: uppercase; letter-spacing: .08em;
+}
+.detail-list { display: grid; gap: 10px; padding: 0; margin: 0; list-style: none; }
+.detail-list li { position: relative; padding-left: 22px; color: #cbd4df; font-size: .86rem; }
+.detail-list li::before {
+  content: "●"; position: absolute; left: 0; color: var(--blue); font-size: .65rem; top: .22rem;
+}
+.contribution {
+  margin-top: 22px; border: 1px solid var(--line); border-radius: 13px; padding: 15px;
+  background: rgba(255,255,255,.025);
+}
+.contribution strong { display: block; margin-bottom: 5px; }
+.contribution span { color: var(--muted); font-size: .82rem; line-height: 1.5; }
+.transverse {
+  margin: 0 28px 28px; padding-top: 22px; border-top: 1px solid var(--line);
+}
+.transverse h3 { margin: 0 0 13px; font-size: .88rem; }
+.transverse-list { display: flex; gap: 9px; flex-wrap: wrap; }
+.transverse-list span {
+  padding: 8px 11px; border: 1px solid var(--line); border-radius: 999px;
+  background: rgba(255,255,255,.02); color: #c9d3df; font-size: .76rem;
+}
+
+@media (max-width: 1100px) {
+  .summary-grid { grid-template-columns: 1fr 1fr; }
+  .profile360-grid { grid-template-columns: 1fr; }
+  .wheel-area { grid-template-columns: 1fr 310px 1fr; }
+  .detail-card { min-height: auto; }
+}
+@media (max-width: 820px) {
+  .page { width: min(100% - 26px, 720px); }
+  .nav-links { display: none; }
+  .hero-grid { grid-template-columns: 1fr; }
+  h1 { font-size: clamp(4rem, 17vw, 7rem); }
+  .summary-grid { grid-template-columns: 1fr; }
+  .summary-panel { min-height: auto; }
+  .wheel-area { display: flex; flex-direction: column; min-height: auto; }
+  .wheel { order: 0; width: min(330px, 82vw); }
+  .domain-label { width: 100%; }
+  .detail-card { min-height: auto; }
+}
+@media (max-width: 560px) {
+  .badges { grid-template-columns: 1fr; }
+  .badge.wide { grid-column: auto; }
+  .expertise-columns { grid-template-columns: 1fr; }
+  .expertise-col + .expertise-col { border-left: 0; padding-left: 0; border-top: 1px solid var(--line); padding-top: 18px; }
+  .metric-grid { grid-template-columns: 1fr; }
+}
+
+/* Ajustements de la version complète */
+.badges{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+.badge.contact-badge{
+  min-width:0;
+}
+.badge.contact-badge:nth-last-child(-n+3){
+  grid-column:auto;
+}
+.search-chips{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+  height:calc(100% - 54px);
+  align-content:stretch;
+}
+.search-chips .chip{
+  min-height:72px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  font-weight:800;
+  font-size:.9rem;
+}
+.quadrant{
+  appearance:none;
+  -webkit-appearance:none;
+  border:0;
+  padding:0;
+  margin:0;
+  background:transparent;
+}
+.interests-section{
+  margin:14px auto 24px;
+}
+.interests-head{
+  display:flex;
+  align-items:end;
+  justify-content:space-between;
+  gap:24px;
+  margin-bottom:16px;
+}
+.interests-head h2{
+  margin:4px 0 0;
+  font-size:clamp(1.8rem,3.4vw,3rem);
+  letter-spacing:-.045em;
+}
+.interests-head p{
+  max-width:620px;
+  margin:0;
+  color:var(--muted);
+}
+.interests-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:16px;
+}
+.interest-card{
+  min-height:170px;
+  padding:22px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:linear-gradient(155deg,rgba(255,255,255,.055),rgba(255,255,255,.017));
+  box-shadow:0 15px 40px rgba(0,0,0,.18);
+  transition:.25s ease;
+}
+.interest-card:hover{
+  transform:translateY(-3px);
+  border-color:rgba(101,223,186,.32);
+}
+.interest-icon{
+  font-size:1.9rem;
+}
+.interest-card strong{
+  display:block;
+  margin-bottom:5px;
+  font-size:1.05rem;
+}
+.interest-card p{
+  margin:0;
+  color:var(--muted);
+  font-size:.84rem;
+  line-height:1.5;
+}
+
+/* Parcours */
+.pc-section{
+  width:min(1180px,calc(100% - 42px));
+  margin:34px auto 70px;
+}
+.pc-kicker{
+  color:var(--green);
+  text-transform:uppercase;
+  letter-spacing:.14em;
+  font-size:.74rem;
+  font-weight:850;
+}
+.pc-title{
+  margin:10px 0 14px;
+  font-size:clamp(2.8rem,6vw,5.4rem);
+  line-height:.94;
+  letter-spacing:-.058em;
+}
+.pc-intro{
+  max-width:840px;
+  margin:0 0 44px;
+  color:var(--muted);
+  line-height:1.72;
+}
+.pc-timeline{
+  position:relative;
+  padding-left:72px;
+}
+.pc-timeline::before{
+  content:"";
+  position:absolute;
+  left:23px;
+  top:18px;
+  bottom:18px;
+  width:2px;
+  background:linear-gradient(180deg,var(--orange),var(--blue),var(--purple),var(--green));
+  opacity:.78;
+}
+.pc-entry{
+  position:relative;
+  margin-bottom:26px;
+  --pc-accent:var(--green);
+}
+.pc-entry.basket{--pc-accent:var(--orange)}
+.pc-entry.formation{--pc-accent:var(--blue)}
+.pc-entry.master{--pc-accent:var(--purple)}
+.pc-entry.kermes{--pc-accent:var(--green)}
+.pc-entry.episaveurs{--pc-accent:#73a7ff}
+.pc-dot{
+  position:absolute;
+  left:-59px;
+  top:31px;
+  width:24px;
+  height:24px;
+  border-radius:50%;
+  border:2px solid var(--pc-accent);
+  background:#0a1423;
+  box-shadow:0 0 0 8px color-mix(in srgb,var(--pc-accent) 10%,transparent),
+             0 0 26px color-mix(in srgb,var(--pc-accent) 28%,transparent);
+}
+.pc-card{
+  overflow:hidden;
+  border:1px solid var(--line);
+  border-radius:24px;
+  background:linear-gradient(160deg,rgba(255,255,255,.055),rgba(255,255,255,.015));
+  box-shadow:var(--shadow);
+  transition:.3s ease;
+}
+.pc-card:hover{
+  transform:translateY(-2px);
+  border-color:color-mix(in srgb,var(--pc-accent) 36%,var(--line));
+}
+.pc-card.open{
+  border-color:color-mix(in srgb,var(--pc-accent) 56%,var(--line));
+}
+.pc-top{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:18px;
+  padding:24px 26px 18px;
+}
+.pc-period{
+  color:var(--pc-accent);
+  font-size:.78rem;
+  font-weight:850;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+}
+.pc-card-title{
+  margin:6px 0 4px;
+  font-size:clamp(1.4rem,2.5vw,2.08rem);
+  line-height:1.08;
+  letter-spacing:-.035em;
+}
+.pc-subtitle{
+  color:var(--muted);
+  font-size:.9rem;
+}
+.pc-tag{
+  align-self:start;
+  padding:8px 12px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  color:#dce5ee;
+  background:rgba(255,255,255,.025);
+  font-size:.77rem;
+  font-weight:800;
+  white-space:nowrap;
+}
+.pc-summary{
+  padding:0 26px 22px;
+}
+.pc-label{
+  display:block;
+  margin-bottom:12px;
+  color:#8798aa;
+  text-transform:uppercase;
+  letter-spacing:.13em;
+  font-size:.67rem;
+  font-weight:850;
+}
+.pc-points{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:9px 22px;
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+.pc-points li{
+  position:relative;
+  padding-left:18px;
+  color:#dfe7ef;
+  font-size:.9rem;
+  line-height:1.46;
+}
+.pc-points li::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:.64em;
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:var(--pc-accent);
+}
+.pc-toggle{
+  width:calc(100% - 52px);
+  margin:0 26px 22px;
+  padding:13px 15px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  border:1px solid color-mix(in srgb,var(--pc-accent) 30%,transparent);
+  border-radius:14px;
+  background:linear-gradient(90deg,color-mix(in srgb,var(--pc-accent) 9%,transparent),rgba(255,255,255,.02));
+  color:var(--text);
+  font:inherit;
+  font-weight:800;
+  cursor:pointer;
+}
+.pc-toggle-icon{
+  width:30px;
+  height:30px;
+  flex:0 0 auto;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:rgba(255,255,255,.05);
+  color:var(--pc-accent);
+  transition:transform .35s ease;
+}
+.pc-card.open .pc-toggle-icon{transform:rotate(180deg)}
+.pc-details{
+  display:grid;
+  grid-template-rows:0fr;
+  opacity:0;
+  visibility:hidden;
+  transition:grid-template-rows .45s ease,opacity .3s ease,visibility 0s linear .45s;
+}
+.pc-card.open .pc-details{
+  grid-template-rows:1fr;
+  opacity:1;
+  visibility:visible;
+  transition:grid-template-rows .45s ease,opacity .3s ease .08s,visibility 0s;
+}
+.pc-details-inner{
+  min-height:0;
+  overflow:hidden;
+}
+.pc-details-content{
+  border-top:1px solid var(--line);
+  padding:24px 26px 28px;
+}
+.pc-detail-grid{
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:16px;
+}
+.pc-block{
+  border:1px solid var(--line);
+  border-radius:17px;
+  padding:18px;
+  background:rgba(4,10,18,.26);
+}
+.pc-block h3{
+  margin:0 0 10px;
+  color:var(--pc-accent);
+  font-size:.73rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+.pc-block p{
+  margin:0;
+  color:#bec9d5;
+  line-height:1.65;
+  font-size:.89rem;
+}
+.pc-missions{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:9px 16px;
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+.pc-missions li{
+  position:relative;
+  padding-left:18px;
+  color:#d7e0e9;
+  font-size:.86rem;
+  line-height:1.45;
+}
+.pc-missions li::before{
+  content:"✓";
+  position:absolute;
+  left:0;
+  color:var(--pc-accent);
+  font-weight:900;
+}
+.pc-metrics{
+  display:grid;
+  gap:10px;
+}
+.pc-metric{
+  padding:13px;
+  border:1px solid color-mix(in srgb,var(--pc-accent) 18%,var(--line));
+  border-radius:13px;
+  background:linear-gradient(135deg,color-mix(in srgb,var(--pc-accent) 8%,transparent),rgba(255,255,255,.015));
+}
+.pc-metric strong{display:block;font-size:1.04rem}
+.pc-metric span{color:var(--muted);font-size:.78rem}
+.pc-takeaway{
+  margin-top:16px;
+  padding:17px 18px;
+  border-left:4px solid var(--pc-accent);
+  border-radius:0 15px 15px 0;
+  background:color-mix(in srgb,var(--pc-accent) 7%,rgba(255,255,255,.018));
+}
+.pc-takeaway strong{
+  display:block;
+  margin-bottom:6px;
+  color:#fff;
+  font-size:.78rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+.pc-takeaway p{
+  margin:0;
+  color:#c8d1db;
+  line-height:1.6;
+  font-size:.88rem;
+}
+.pc-progression{
+  margin-top:16px;
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  gap:12px;
+  align-items:center;
+}
+.pc-step{
+  min-height:112px;
+  padding:16px;
+  border:1px solid var(--line);
+  border-radius:16px;
+  background:rgba(255,255,255,.025);
+}
+.pc-step strong{display:block;margin-bottom:7px}
+.pc-step span{color:var(--muted);font-size:.82rem;line-height:1.5}
+.pc-arrow{color:var(--pc-accent);font-size:1.6rem}
+
+.site-footer{
+  width:min(1180px,calc(100% - 42px));
+  margin:0 auto 38px;
+  padding:28px 0;
+  text-align:center;
+  color:var(--muted);
+  border-top:1px solid var(--line);
+}
+
+@media(max-width:1100px){
+  .interests-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:820px){
+  .interests-head{display:block}
+  .interests-head p{margin-top:10px}
+}
+@media(max-width:760px){
+  .pc-section{width:min(100% - 26px,720px)}
+  .pc-timeline{padding-left:42px}
+  .pc-timeline::before{left:12px}
+  .pc-dot{left:-40px;width:20px;height:20px}
+  .pc-top{grid-template-columns:1fr;padding:21px 19px 16px}
+  .pc-tag{justify-self:start}
+  .pc-summary{padding:0 19px 19px}
+  .pc-points,.pc-missions,.pc-detail-grid{grid-template-columns:1fr}
+  .pc-toggle{width:calc(100% - 38px);margin:0 19px 19px}
+  .pc-details-content{padding:21px 19px 23px}
+  .pc-progression{grid-template-columns:1fr}
+  .pc-arrow{transform:rotate(90deg);justify-self:center}
+}
+@media(max-width:560px){
+  .interests-grid{grid-template-columns:1fr}
+  .badges{grid-template-columns:1fr}
+}
+
+
+/* Mise à jour août 2026 */
+.search-chips-lines{
+  display:flex !important;
+  flex-direction:column;
+  gap:10px;
+  height:auto !important;
+  align-content:initial !important;
+}
+.search-chips-lines .chip{
+  min-height:46px !important;
+  width:100%;
+  justify-content:flex-start !important;
+  text-align:left !important;
+  padding:0 14px !important;
+}
+.interests-grid-detailed .interest-card{
+  min-height:185px;
+}
+.results-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:16px;
+}
+.result-card{
+  min-height:150px;
+  padding:24px;
+  border:1px solid var(--line);
+  border-radius:20px;
+  background:linear-gradient(155deg,rgba(255,255,255,.055),rgba(255,255,255,.017));
+  box-shadow:0 15px 40px rgba(0,0,0,.18);
+}
+.result-card strong{
+  display:block;
+  margin-bottom:10px;
+  font-size:clamp(2rem,4vw,3.2rem);
+  line-height:1;
+  letter-spacing:-.055em;
+  color:var(--green);
+}
+.result-card span{
+  color:var(--muted);
+  line-height:1.45;
+}
+.goals-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:16px;
+}
+.goal-card{
+  min-height:230px;
+  padding:24px;
+  border:1px solid var(--line);
+  border-radius:20px;
+  background:linear-gradient(155deg,rgba(255,255,255,.055),rgba(255,255,255,.017));
+  box-shadow:0 15px 40px rgba(0,0,0,.18);
+}
+.goal-step{
+  width:42px;
+  height:42px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:linear-gradient(120deg,var(--blue),var(--green));
+  color:#07111d;
+  font-weight:900;
+}
+.goal-card h3{
+  margin:18px 0 9px;
+  font-size:1.25rem;
+}
+.goal-card p{
+  margin:0;
+  color:var(--muted);
+  line-height:1.65;
+}
+@media(max-width:900px){
+  .results-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .goals-grid{grid-template-columns:1fr}
+}
+@media(max-width:560px){
+  .results-grid{grid-template-columns:1fr}
+}
+
+
+</style>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="page nav-inner">
+    <a class="brand" href="#top">Victor<span>.</span></a>
+    <div class="nav-links">
+      <a href="#profil">Profil 360</a>
+      <a href="#parcours">Parcours</a>
+      <a href="#resultats">Résultats</a>
+      <a href="#objectifs">Objectifs</a>
+    </div>
+  </div>
+</nav>
+
+
+<main id="top">
+<section class="hero">
+  <div class="page hero-grid">
+    <div>
+      <div class="status"><span class="status-dot"></span>Disponible pour une nouvelle opportunité</div>
+      <h1>Analyser.<br><span class="gradient">Optimiser.</span><br>Piloter.</h1>
+      <p class="hero-copy">
+        Profil polyvalent orienté données, reporting et amélioration des processus. Mon objectif : évoluer vers le contrôle de gestion en valorisant une expérience opérationnelle construite au contact du terrain, des équipes commerciales et des outils de pilotage.
+      </p>
+      <div class="actions">
+        <a class="btn primary" href="#profil">🚀 Découvrir mon parcours</a>
+        <a class="btn" href="mailto:victorgateau@gmail.com">✉ Me contacter</a>
+      </div>
+    </div>
+
+    <aside class="profile-card">
+      <div class="photo"><img src="assets/photo.png" alt="Portrait professionnel de Victor Gateau"></div>
+      <h2>Victor Gateau</h2>
+      <div class="profile-role">Analyse • Reporting • Process • <strong>Contrôle de gestion</strong></div>
+      <div class="badges">
+        <div class="badge wide"><span class="badge-icon">⌖</span>Paris 14 <span style="opacity:.25">|</span> 🚙 Mobilité Île-de-France</div>
+        <div class="badge"><span class="badge-icon">🎓</span>Bac+3 DCG</div>
+        <div class="badge"><span class="badge-icon">▣</span>Bac+5 Master<br>École de Commerce</div>
+        <div class="badge contact-badge"><span class="badge-icon">▦</span>31 ans</div>
+        <div class="badge contact-badge"><span class="badge-icon">◈</span>Profil MBTI : INTP</div>
+        <div class="badge contact-badge"><span class="badge-icon">✉</span>victorgateau@gmail.com</div>
+        <div class="badge contact-badge"><span class="badge-icon">☎</span>06 63 66 91 05</div>
+      </div>
+    </aside>
+  </div>
+
+  <div class="page">
+    <div class="summary-title">Executive summary</div>
+    <div class="summary-grid">
+      <article class="panel summary-panel">
+        <div class="panel-head"><span class="panel-icon">◎</span>Périmètre de recherche</div>
+        <div class="chips search-chips search-chips-lines">
+          <span class="chip">Contrôle de Gestion</span>
+          <span class="chip">Finance</span>
+          <span class="chip">ADV</span>
+          <span class="chip">Comptabilité</span>
+        </div>
+      </article>
+
+      <article class="panel summary-panel">
+        <div class="panel-head"><span class="panel-icon">▦</span>Secteurs favoris</div>
+        <div class="sector-list">
+          <div class="sector">🚚 Transport</div><div class="sector">📦 Logistique</div>
+          <div class="sector">🏀 Sport</div><div class="sector">🎪 Événementiel</div>
+          <div class="sector">🎓 Éducatif</div><div class="sector">💻 Tech</div>
+        </div>
+      </article>
+
+      <article class="panel summary-panel">
+        <div class="panel-head"><span class="panel-icon">ϟ</span>Expertises</div>
+        <div class="expertise-columns">
+          <div class="expertise-col">
+            <h3>Compétences</h3>
+            <div class="expertise-list">
+              <div class="expertise-item">Reporting</div>
+              <div class="expertise-item">Analyse de données</div>
+              <div class="expertise-item">Pilotage de la performance</div>
+              <div class="expertise-item">Optimisation des processus</div>
+              <div class="expertise-item">Automatisation</div>
+              <div class="expertise-item">Amélioration continue</div>
+            </div>
+          </div>
+          <div class="expertise-col software">
+            <h3>Logiciels</h3>
+            <div class="expertise-list">
+              <div class="expertise-item">SAP ERP</div><div class="expertise-item">SAP BI</div>
+              <div class="expertise-item">Odoo</div><div class="expertise-item">Pack Office</div>
+              <div class="expertise-item">Make</div><div class="expertise-item">Zapier</div>
+              <div class="expertise-item">Sellsy</div><div class="expertise-item">Qweekle</div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel summary-panel">
+        <div class="panel-head"><span class="panel-icon">☆</span>Soft skills</div>
+        <div class="soft-list">
+          <div class="soft">Proactivité</div><div class="soft">Polyvalence</div>
+          <div class="soft">Esprit d’analyse</div><div class="soft">Rigueur</div>
+          <div class="soft">Gestion du stress</div><div class="soft">Esprit d’équipe</div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="page interests-section" id="centres-interet">
+  <div class="interests-head">
+    <div>
+      <div class="summary-title" style="margin-top:0">Centres d’intérêt</div>
+      <h2>Ce qui nourrit mon équilibre</h2>
+    </div>
+    <p>Quatre univers qui reflètent ma curiosité, ma discipline et mon goût pour les projets concrets.</p>
+  </div>
+  <div class="interests-grid interests-grid-detailed">
+    <article class="interest-card detailed">
+      <span class="interest-icon">🏀</span>
+      <div>
+        <strong>Sport & Santé</strong>
+        <p>Basket, football, cyclisme, musculation, cardio et alimentation.</p>
+      </div>
+    </article>
+    <article class="interest-card detailed">
+      <span class="interest-icon">🎮</span>
+      <div>
+        <strong>Création de projets</strong>
+        <p>Jeux de société, jeux de cartes numériques, applications et escape games.</p>
+      </div>
+    </article>
+    <article class="interest-card detailed">
+      <span class="interest-icon">📈</span>
+      <div>
+        <strong>Business</strong>
+        <p>Économie, entrepreneuriat et finance.</p>
+      </div>
+    </article>
+    <article class="interest-card detailed">
+      <span class="interest-icon">💻</span>
+      <div>
+        <strong>Digital</strong>
+        <p>Outils de productivité, jeux vidéo, technologies et intelligence artificielle.</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+
+<section class="page profile360-section" id="profil">
+  <div class="profile360-head">
+    <div class="profile360-pill">Un profil polyvalent et adaptable</div>
+    <h2>Un profil <span>360°</span> au service de la performance</h2>
+    <p>Mon parcours m’a permis de développer une vision complète de l’entreprise, mêlant compétences financières, opérationnelles, commerciales et techniques. Survolez ou sélectionnez un domaine pour afficher son contenu détaillé.</p>
+  </div>
+
+  <div class="profile360-grid">
+    <div class="wheel-area">
+      <article class="domain-label" data-domain="project" tabindex="0">
+        <h3>Projet & coordination</h3>
+        <p>Organisation, paramétrage et optimisation d’outils pour structurer l’activité.</p>
+      </article>
+      <article class="domain-label" data-domain="finance" tabindex="0">
+        <h3>Comptabilité & administratif</h3>
+        <p>Fondamentaux comptables, gestion administrative et fiabilisation des données.</p>
+      </article>
+      <article class="domain-label" data-domain="commercial" tabindex="0">
+        <h3>Commercial & relationnel</h3>
+        <p>Suivi client, litiges, relation partenaires et vision business concrète.</p>
+      </article>
+      <article class="domain-label" data-domain="process" tabindex="0">
+        <h3>Pilotage & process</h3>
+        <p>Analyse, reporting et automatisation au service de la performance.</p>
+      </article>
+
+      <div class="wheel" aria-label="Profil 360 interactif">
+        <button class="quadrant q-process active" data-domain="process"><span>Pilotage<br>& Process</span></button>
+        <button class="quadrant q-finance" data-domain="finance"><span>Comptabilité<br>& Administratif</span></button>
+        <button class="quadrant q-project" data-domain="project"><span>Projet<br>& Coordination</span></button>
+        <button class="quadrant q-commercial" data-domain="commercial"><span>Commercial<br>& Relationnel</span></button>
+        <div class="wheel-center">PROFIL<br>360°</div>
+      </div>
+    </div>
+
+    <aside class="detail-card" id="domain-detail" data-color="green">
+      <div class="detail-kicker"><span id="detail-count">01 / 04</span><span>Profil 360°</span></div>
+      <h3 id="detail-title">Pilotage & Process</h3>
+      <p id="detail-description">Analyse de données, reporting, tableaux de bord et optimisation des processus pour améliorer la performance.</p>
+      <div class="metric-grid" id="detail-metrics"></div>
+      <h4>Missions et savoir-faire</h4>
+      <ul class="detail-list" id="detail-list"></ul>
+      <div class="contribution">
+        <strong>Apport</strong>
+        <span id="detail-contribution">Transformer des données opérationnelles en décisions concrètes et en gains de productivité mesurables.</span>
+      </div>
+    </aside>
+  </div>
+</section>
+
+
+<section class="pc-section" id="parcours">
+  <div class="pc-kicker">Parcours</div>
+  <h2 class="pc-title">Une évolution construite étape par étape</h2>
+  <p class="pc-intro">Une lecture rapide des étapes clés, avec la possibilité de développer chaque carte pour découvrir le contexte, les missions, les chiffres marquants et ce que chaque expérience m’a apporté.</p>
+
+  <div class="pc-timeline">
+
+    <article class="pc-entry basket">
+      <span class="pc-dot"></span>
+      <div class="pc-card">
+        <div class="pc-top">
+          <div><div class="pc-period">2006 — 2012</div><h3 class="pc-card-title">Basket de haut niveau</h3><div class="pc-subtitle">Sélections départementales et régionales · Pôle Espoirs Amiens · Championnats de France</div></div>
+          <span class="pc-tag">Discipline & autonomie</span>
+        </div>
+        <div class="pc-summary"><span class="pc-label">À retenir</span><ul class="pc-points">
+          <li>Passion structurante dès l’adolescence</li><li>Vie en internat et responsabilités très jeunes</li><li>Exigence et discipline du haut niveau</li><li>Autonomie, pression et esprit d’équipe</li>
+        </ul></div>
+        <button class="pc-toggle" type="button" aria-expanded="false"><span>Découvrir cette étape</span><span class="pc-toggle-icon">⌄</span></button>
+        <div class="pc-details"><div class="pc-details-inner"><div class="pc-details-content">
+          <div class="pc-block"><h3>Contexte</h3><p>Le basket a été ma première école. Très jeune, j’ai intégré un environnement exigeant avec la vie en internat, des entraînements réguliers, des déplacements et la nécessité de concilier études et sport.</p></div>
+          <div class="pc-takeaway"><strong>Ce que j’en retiens</strong><p>Discipline, autonomie, gestion de la pression, goût de l’effort et travail collectif.</p></div>
+        </div></div></div>
+      </div>
+    </article>
+
+    <article class="pc-entry formation">
+      <span class="pc-dot"></span>
+      <div class="pc-card">
+        <div class="pc-top">
+          <div><div class="pc-period">2012 — 2017</div><h3 class="pc-card-title">Bac S · DCG · DSCG en alternance</h3><div class="pc-subtitle">Cabinet Alexco · Cabinet d’expertise comptable</div></div>
+          <span class="pc-tag">Bases techniques</span>
+        </div>
+        <div class="pc-summary"><span class="pc-label">À retenir</span><ul class="pc-points">
+          <li>Profil naturellement orienté mathématiques et analyse</li><li>Apprentissage solide en comptabilité et gestion</li><li>Deux années d’alternance en cabinet</li><li>Déclic sur le besoin d’un environnement plus stimulant</li>
+        </ul></div>
+        <button class="pc-toggle" type="button" aria-expanded="false"><span>Voir le contexte et les missions</span><span class="pc-toggle-icon">⌄</span></button>
+        <div class="pc-details"><div class="pc-details-inner"><div class="pc-details-content">
+          <div class="pc-detail-grid">
+            <div class="pc-block"><h3>Contexte</h3><p>Naturellement attiré par les matières analytiques, je me suis orienté vers la comptabilité et la finance. Cette formation m’a donné une base technique exigeante et structurée. Mon alternance m’a aussi permis de comprendre que l’expertise comptable ne correspondait pas à ce qui me motivait au quotidien : j’avais besoin d’un environnement plus dynamique, plus proche du terrain et des décisions.</p></div>
+            <div class="pc-block"><h3>Missions en cabinet</h3><ul class="pc-missions">
+              <li>Saisie comptable</li><li>Contrôle des pièces</li><li>Rapprochements bancaires</li><li>Déclarations de TVA</li><li>Révision comptable</li><li>Préparation des bilans</li><li>Suivi de dossiers clients</li><li>Classement et justification</li>
+            </ul></div>
+          </div>
+          <div class="pc-takeaway"><strong>Ce que j’en retiens</strong><p>Une rigueur durable et une compréhension solide des mécanismes comptables, toujours utiles dans mes analyses et mes outils de pilotage.</p></div>
+        </div></div></div>
+      </div>
+    </article>
+
+    <article class="pc-entry master">
+      <span class="pc-dot"></span>
+      <div class="pc-card">
+        <div class="pc-top">
+          <div><div class="pc-period">2018 — 2020</div><h3 class="pc-card-title">Master École de Commerce</h3><div class="pc-subtitle">Sport · Business · Stratégie · Management</div></div>
+          <span class="pc-tag">Vision business</span>
+        </div>
+        <div class="pc-summary"><span class="pc-label">À retenir</span><ul class="pc-points">
+          <li>Élargir ma vision au-delà de la comptabilité</li><li>Approche plus business et stratégique</li><li>Renouer avec ma passion pour le sport</li><li>Développer une compréhension globale de l’entreprise</li>
+        </ul></div>
+        <button class="pc-toggle" type="button" aria-expanded="false"><span>Découvrir cette étape</span><span class="pc-toggle-icon">⌄</span></button>
+        <div class="pc-details"><div class="pc-details-inner"><div class="pc-details-content">
+          <div class="pc-block"><h3>Contexte</h3><p>J’ai choisi une école de commerce afin d’élargir ma compréhension de l’entreprise et de sortir d’une approche uniquement comptable. Le secteur du sport me permettait également de renouer avec une passion forte, tout en développant des compétences en stratégie, marketing et management.</p></div>
+          <div class="pc-takeaway"><strong>Ce que j’en retiens</strong><p>Une vision plus globale de l’entreprise, capable de relier les chiffres aux enjeux commerciaux, opérationnels et stratégiques.</p></div>
+        </div></div></div>
+      </div>
+    </article>
+
+    <article class="pc-entry kermes">
+      <span class="pc-dot"></span>
+      <div class="pc-card">
+        <div class="pc-top">
+          <div><div class="pc-period">2020 — 2025</div><h3 class="pc-card-title">Kermes Club</h3><div class="pc-subtitle">De stagiaire animateur & commercial à Responsable Back Office</div></div>
+          <span class="pc-tag">Évolution interne</span>
+        </div>
+        <div class="pc-summary"><span class="pc-label">À retenir</span><ul class="pc-points">
+          <li>Entrée comme stagiaire animateur et commercial</li><li>Évolution vers Responsable Back Office</li><li>Forte autonomie et missions très variées</li><li>Gestion, facturation, outils, KPI et coordination</li>
+        </ul></div>
+        <button class="pc-toggle" type="button" aria-expanded="false"><span>Voir le contexte, l’évolution et les missions</span><span class="pc-toggle-icon">⌄</span></button>
+        <div class="pc-details"><div class="pc-details-inner"><div class="pc-details-content">
+          <div class="pc-detail-grid">
+            <div class="pc-block"><h3>Contexte et évolution</h3><p>J’ai rejoint Kermes Club dans le cadre de mon stage de Master comme animateur et commercial. Cette immersion terrain m’a permis de comprendre rapidement l’activité et d’être identifié pour ma polyvalence et ma capacité à structurer les processus.</p>
+              <div class="pc-progression">
+                <div class="pc-step"><strong>Stagiaire</strong><span>Animation, commercial, relation client et découverte des opérations.</span></div>
+                <div class="pc-arrow">→</div>
+                <div class="pc-step"><strong>Responsable Back Office</strong><span>Gestion administrative, facturation, Odoo, KPI, coordination et amélioration des process.</span></div>
+              </div>
+            </div>
+            <div class="pc-block"><h3>Missions principales</h3><ul class="pc-missions">
+              <li>Paramétrage d’Odoo</li><li>Gestion du CRM</li><li>Facturation clients</li><li>Suivi des encaissements</li><li>Prévisionnels de CA</li><li>Création de KPI</li><li>Tableaux de bord</li><li>Gestion administrative</li><li>Coordination des équipes</li><li>Suivi des partenaires</li><li>Gestion de projets</li><li>Optimisation des processus</li>
+            </ul></div>
+          </div>
+          <div class="pc-detail-grid" style="margin-top:16px">
+            <div class="pc-block"><h3>Chiffres clés</h3><div class="pc-metrics">
+              <div class="pc-metric"><strong>50 à 300</strong><span>factures suivies chaque mois</span></div>
+              <div class="pc-metric"><strong>5 ans</strong><span>d’évolution au sein de la structure</span></div>
+              <div class="pc-metric"><strong>Odoo + QuickBooks</strong><span>outils de gestion et de dématérialisation</span></div>
+            </div></div>
+            <div class="pc-block"><h3>Impact</h3><p>Structuration des outils, meilleure visibilité sur l’activité, centralisation du suivi commercial et administratif, et contribution directe au fonctionnement quotidien de l’entreprise.</p></div>
+          </div>
+          <div class="pc-takeaway"><strong>Ce que j’en retiens</strong><p>Cette expérience m’a permis de développer une vision à 360° de l’entreprise et a confirmé que je m’épanouis dans des environnements dynamiques, polyvalents et responsabilisants.</p></div>
+        </div></div></div>
+      </div>
+    </article>
+
+    <article class="pc-entry episaveurs">
+      <span class="pc-dot"></span>
+      <div class="pc-card">
+        <div class="pc-top">
+          <div><div class="pc-period">2025 — Aujourd’hui</div><h3 class="pc-card-title">Episaveurs · Groupe Pomona</h3><div class="pc-subtitle">Administrateur des ventes · Succursale de Wissous</div></div>
+          <span class="pc-tag">Grand groupe</span>
+        </div>
+        <div class="pc-summary"><span class="pc-label">À retenir</span><ul class="pc-points">
+          <li>Découverte d’une organisation structurée</li><li>Volumes de données importants</li><li>Reporting, tableaux de bord et VBA</li><li>Tremplin vers un rôle plus analytique et enrichissant</li>
+        </ul></div>
+        <button class="pc-toggle" type="button" aria-expanded="false"><span>Voir le contexte, les missions et les chiffres clés</span><span class="pc-toggle-icon">⌄</span></button>
+        <div class="pc-details"><div class="pc-details-inner"><div class="pc-details-content">
+          <div class="pc-detail-grid">
+            <div class="pc-block"><h3>Contexte</h3><p>Rejoindre Episaveurs m’a permis de découvrir le fonctionnement d’un grand groupe, avec des processus structurés, des volumes importants et des outils de pilotage exigeants. Cette expérience constitue aujourd’hui un tremplin vers un poste où je pourrai mobiliser pleinement mes compétences analytiques.</p></div>
+            <div class="pc-block"><h3>Missions principales</h3><ul class="pc-missions">
+              <li>Reporting quotidien</li><li>Reporting mensuel</li><li>Création de tableaux de bord</li><li>Optimisation de reportings</li><li>Analyse du chiffre d’affaires</li><li>Analyse des marges</li><li>Détection d’anomalies</li><li>Gestion tarifaire</li><li>Consolidation de données</li><li>Automatisation VBA</li><li>Support aux commerciaux</li><li>Outils d’aide à la décision</li>
+            </ul></div>
+          </div>
+          <div class="pc-detail-grid" style="margin-top:16px">
+            <div class="pc-block"><h3>Chiffres clés</h3><div class="pc-metrics">
+              <div class="pc-metric"><strong>4 + 4</strong><span>tableaux de bord créés et optimisés</span></div>
+              <div class="pc-metric"><strong>400 000+</strong><span>lignes tarifaires traitées</span></div>
+              <div class="pc-metric"><strong>30 commerciaux</strong><span>accompagnés par les outils et reportings</span></div>
+              <div class="pc-metric"><strong>250 à 400</strong><span>e-mails automatisés</span></div>
+              <div class="pc-metric"><strong>3 jours → 0,5 jour</strong><span>sur un processus de révision tarifaire</span></div>
+            </div></div>
+            <div class="pc-block"><h3>Impact</h3><p>Des données plus fiables, des traitements plus rapides et une meilleure visibilité pour les équipes commerciales et la direction sur l’activité, les marges et les anomalies.</p></div>
+          </div>
+          <div class="pc-takeaway"><strong>Ce que j’en retiens</strong><p>Cette expérience me donne les méthodes et les repères d’un grand groupe, tout en renforçant mon envie d’évoluer vers un poste de contrôle de gestion plus proche de l’analyse et de la décision.</p></div>
+        </div></div></div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+
+<section class="pc-section" id="resultats">
+  <div class="pc-kicker">Impact</div>
+  <h2 class="pc-title">Des résultats concrets</h2>
+  <p class="pc-intro">Des réalisations mesurables qui illustrent ma capacité à fiabiliser les données, gagner du temps et améliorer le pilotage.</p>
+  <div class="results-grid">
+    <article class="result-card">
+      <strong>4</strong>
+      <span>tableaux de bord créés</span>
+    </article>
+    <article class="result-card">
+      <strong>4</strong>
+      <span>tableaux de bord optimisés</span>
+    </article>
+    <article class="result-card">
+      <strong>400 000+</strong>
+      <span>lignes tarifaires traitées</span>
+    </article>
+    <article class="result-card">
+      <strong>3 jours → 0,5 jour</strong>
+      <span>sur un processus de révision tarifaire</span>
+    </article>
+    <article class="result-card">
+      <strong>250 à 400</strong>
+      <span>e-mails automatisés</span>
+    </article>
+    <article class="result-card">
+      <strong>30</strong>
+      <span>commerciaux accompagnés</span>
+    </article>
+  </div>
+</section>
+
+<section class="pc-section" id="objectifs">
+  <div class="pc-kicker">Objectifs</div>
+  <h2 class="pc-title">Une trajectoire claire</h2>
+  <p class="pc-intro">Une évolution progressive vers des fonctions de pilotage financier à plus forte responsabilité.</p>
+  <div class="goals-grid">
+    <article class="goal-card">
+      <span class="goal-step">01</span>
+      <h3>Court terme</h3>
+      <p>Intégrer un poste comportant une part significative de contrôle de gestion, de reporting et d’analyse de la performance.</p>
+    </article>
+    <article class="goal-card">
+      <span class="goal-step">02</span>
+      <h3>Moyen terme</h3>
+      <p>Devenir Contrôleur de gestion confirmé, autonome sur un périmètre et force de proposition auprès des opérationnels.</p>
+    </article>
+    <article class="goal-card">
+      <span class="goal-step">03</span>
+      <h3>Long terme</h3>
+      <p>Évoluer vers un poste de Responsable Contrôle de gestion ou Responsable Financier.</p>
+    </article>
+  </div>
+</section>
+
+<footer class="site-footer">© 2026 Victor Gateau — CV interactif</footer>
+
+<section id="contact" style="height:30px"></section>
+</main>
+
+<script>
+const domains = {
+  process: {
+    count: "01 / 04",
+    title: "Pilotage & Process",
+    color: "green",
+    description: "Analyse de données, reporting, tableaux de bord et optimisation des processus pour améliorer la performance.",
+    metrics: [["8+", "Tableaux de bord créés ou optimisés"], ["3 à 8x", "Gain de temps sur plusieurs missions"]],
+    list: ["Création et optimisation de tableaux de bord", "Analyse des marges et des KPI", "Automatisation sur Excel et VBA", "Contrôle et fiabilisation des données", "Amélioration continue des processus", "Aide à la décision opérationnelle"],
+    contribution: "Transformer des données opérationnelles en décisions concrètes et en gains de productivité mesurables."
+  },
+  finance: {
+    count: "02 / 04",
+    title: "Comptabilité & Administratif",
+    color: "blue",
+    description: "Des bases solides en comptabilité, gestion administrative, suivi financier et contrôle de la qualité des données.",
+    metrics: [["2 ans", "En cabinet d’expertise comptable"], ["DCG", "Comptabilité et gestion"]],
+    list: ["Saisie et révision comptable", "Déclarations de TVA", "Rapprochements bancaires", "Facturation et suivi clients", "Contrôle et justification des comptes", "Suivi administratif et financier"],
+    contribution: "Une compréhension fiable des flux financiers et des exigences de rigueur nécessaires au pilotage d’une activité."
+  },
+  commercial: {
+    count: "03 / 04",
+    title: "Commercial & Relationnel",
+    color: "purple",
+    description: "Une expérience terrain construite au contact des clients, partenaires, commerciaux et responsables opérationnels.",
+    metrics: [["1 000+", "Clients et partenaires accompagnés"], ["5 ans", "Dans une structure événementielle"]],
+    list: ["Suivi de la relation client", "Gestion des litiges et relances", "Coordination avec les équipes commerciales", "Analyse du chiffre d’affaires", "Suivi du taux de conversion", "Interface avec les partenaires"],
+    contribution: "Relier l’analyse aux réalités commerciales pour proposer des outils utiles, compréhensibles et directement actionnables."
+  },
+  project: {
+    count: "04 / 04",
+    title: "Projet & Coordination",
+    color: "orange",
+    description: "Structuration d’outils, coordination transverse et conduite d’actions permettant d’organiser et de sécuriser l’activité.",
+    metrics: [["Odoo / CRM", "Paramétrage et structuration"], ["Multi-acteurs", "Coordination interne et externe"]],
+    list: ["Paramétrage d’Odoo et de CRM", "Organisation et planification", "Coordination de prestataires", "Appels d’offres et suivi de projets", "Conception d’outils internes", "Accompagnement au changement"],
+    contribution: "Structurer les besoins, fluidifier la coordination et faire aboutir des projets concrets dans des environnements polyvalents."
+  }
+};
+
+let selectedDomain = "process";
+const detailCard = document.getElementById("domain-detail");
+const title = document.getElementById("detail-title");
+const desc = document.getElementById("detail-description");
+const count = document.getElementById("detail-count");
+const metrics = document.getElementById("detail-metrics");
+const list = document.getElementById("detail-list");
+const contribution = document.getElementById("detail-contribution");
+const interactive = [...document.querySelectorAll("[data-domain]")];
+
+function renderDomain(key, persist = false) {
+  const d = domains[key];
+  if (!d) return;
+  if (persist) selectedDomain = key;
+
+  detailCard.dataset.color = d.color;
+  count.textContent = d.count;
+  title.textContent = d.title;
+  desc.textContent = d.description;
+  contribution.textContent = d.contribution;
+  metrics.innerHTML = d.metrics.map(([value,label]) =>
+    `<div class="metric-box"><strong>${value}</strong><span>${label}</span></div>`
+  ).join("");
+  list.innerHTML = d.list.map(item => `<li>${item}</li>`).join("");
+
+  interactive.forEach(el => el.classList.toggle("active", el.dataset.domain === key));
+}
+
+interactive.forEach(el => {
+  const key = el.dataset.domain;
+  el.addEventListener("mouseenter", () => renderDomain(key));
+  el.addEventListener("focus", () => renderDomain(key));
+  el.addEventListener("click", () => renderDomain(key, true));
+  el.addEventListener("keydown", e => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      renderDomain(key, true);
+    }
+  });
+  el.addEventListener("mouseleave", () => renderDomain(selectedDomain));
+  el.addEventListener("blur", () => renderDomain(selectedDomain));
+});
+
+renderDomain(selectedDomain, true);
+
+
+const pcCards = [...document.querySelectorAll(".pc-card")];
+pcCards.forEach(card => {
+  const button = card.querySelector(".pc-toggle");
+  const label = button.querySelector("span:first-child");
+  button.dataset.defaultLabel = label.textContent;
+
+  button.addEventListener("click", () => {
+    const willOpen = !card.classList.contains("open");
+
+    pcCards.forEach(other => {
+      if (other !== card) {
+        other.classList.remove("open");
+        const otherButton = other.querySelector(".pc-toggle");
+        otherButton.setAttribute("aria-expanded", "false");
+        otherButton.querySelector("span:first-child").textContent = otherButton.dataset.defaultLabel;
+      }
+    });
+
+    card.classList.toggle("open", willOpen);
+    button.setAttribute("aria-expanded", String(willOpen));
+    label.textContent = willOpen ? "Masquer le détail" : button.dataset.defaultLabel;
+  });
+});
+
+</script>
+</body>
+</html>
