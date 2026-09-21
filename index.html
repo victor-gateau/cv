@@ -1,1332 +1,221 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Victor Gateau — Démo CV premium</title>
-<style>
-:root {
-  --bg: #081422;
-  --bg-2: #0d1a2b;
-  --panel: #111f31;
-  --panel-soft: #142438;
-  --line: rgba(255,255,255,.095);
-  --text: #f5f7fb;
-  --muted: #a8b5c7;
-  --green: #65dfba;
-  --blue: #5f9df7;
-  --purple: #bc70f2;
-  --orange: #f0aa2a;
-  --shadow: 0 22px 65px rgba(0,0,0,.28);
-}
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body {
-  margin: 0;
-  min-height: 100vh;
-  color: var(--text);
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background:
-    radial-gradient(circle at 15% 8%, rgba(76,110,190,.14), transparent 31%),
-    radial-gradient(circle at 88% 13%, rgba(63,180,151,.08), transparent 28%),
-    linear-gradient(180deg, #0a1423 0%, #07111d 100%);
-}
-a { color: inherit; text-decoration: none; }
-button { font: inherit; }
-.page { width: min(1440px, calc(100% - 42px)); margin: auto; }
-.nav {
-  position: sticky; top: 0; z-index: 50;
-  border-bottom: 1px solid var(--line);
-  background: rgba(7,15,27,.82);
-  backdrop-filter: blur(18px);
-}
-.nav-inner {
-  min-height: 72px; display: flex; align-items: center; justify-content: space-between;
-}
-.brand { font-weight: 900; font-size: 1.15rem; letter-spacing: -.04em; }
-.brand span { color: var(--green); }
-.nav-links { display: flex; gap: 34px; color: #c3ccda; font-size: .92rem; }
-.nav-links a:hover { color: #fff; }
-
-.hero { padding: 62px 0 34px; }
-.hero-grid {
-  display: grid; grid-template-columns: 1.13fr .87fr; gap: 44px; align-items: center;
-}
-.status {
-  display: inline-flex; align-items: center; gap: 10px;
-  border: 1px solid var(--line); border-radius: 999px;
-  padding: 10px 15px; color: #c8d2df; background: rgba(255,255,255,.025);
-  font-size: .88rem;
-}
-.status-dot {
-  width: 9px; height: 9px; border-radius: 50%; background: var(--green);
-  box-shadow: 0 0 0 7px rgba(101,223,186,.09);
-}
-h1 {
-  margin: 28px 0 23px;
-  font-size: clamp(4.4rem, 8vw, 8.7rem);
-  line-height: .82; letter-spacing: -.075em;
-}
-.gradient {
-  background: linear-gradient(110deg, #aabaff, #67a6f2 49%, #6be0b9);
-  -webkit-background-clip: text; background-clip: text; color: transparent;
-}
-.hero-copy {
-  max-width: 760px; color: var(--muted); font-size: 1.07rem; line-height: 1.72;
-}
-.actions { display: flex; gap: 14px; margin-top: 30px; flex-wrap: wrap; }
-.btn {
-  min-height: 54px; padding: 0 24px; display: inline-flex; align-items: center; gap: 10px;
-  border: 1px solid var(--line); border-radius: 12px; font-weight: 800;
-  background: rgba(8,16,29,.66); transition: .25s ease;
-}
-.btn.primary {
-  color: #06121d; border: 0;
-  background: linear-gradient(105deg, #7ca9f3, #65dfba);
-}
-.btn:hover { transform: translateY(-2px); }
-
-.profile-card {
-  padding: 22px; border-radius: 31px; border: 1px solid rgba(255,255,255,.13);
-  background: linear-gradient(160deg, rgba(255,255,255,.08), rgba(255,255,255,.025));
-  box-shadow: var(--shadow);
-}
-.photo {
-  overflow: hidden; aspect-ratio: 1.46 / 1; border-radius: 22px; background: #d8d5cb;
-}
-.photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 36%; display: block; }
-.profile-card h2 { margin: 24px 0 4px; font-size: 2rem; letter-spacing: -.035em; }
-.profile-role { color: #bdc8d5; }
-.profile-role strong { color: var(--green); font-weight: 500; }
-.badges {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 22px;
-}
-.badge {
-  min-height: 48px; border: 1px solid var(--line); border-radius: 11px;
-  padding: 10px 13px; display: flex; align-items: center; gap: 11px;
-  color: #e1e7ee; background: rgba(255,255,255,.025); font-size: .86rem;
-}
-.badge.wide { grid-column: 1 / -1; }
-.badge-icon { color: #cfe1f7; font-size: 1.05rem; }
-
-.summary-title {
-  margin-top: 22px; display: flex; align-items: center; gap: 10px;
-  color: #fff; font-size: .75rem; font-weight: 850; letter-spacing: .08em;
-  text-transform: uppercase;
-}
-.summary-title::before {
-  content: ""; width: 4px; height: 26px; border-radius: 4px; background: var(--green);
-}
-.summary-grid {
-  display: grid; grid-template-columns: .92fr .96fr 1.43fr .82fr; gap: 16px; margin-top: 14px;
-}
-.panel {
-  border: 1px solid var(--line); border-radius: 18px;
-  background: linear-gradient(155deg, rgba(255,255,255,.055), rgba(255,255,255,.017));
-  box-shadow: 0 15px 40px rgba(0,0,0,.18);
-}
-.summary-panel { min-height: 280px; padding: 22px; }
-.panel-head {
-  display: flex; align-items: center; gap: 11px; margin-bottom: 22px;
-  font-size: .76rem; font-weight: 850; letter-spacing: .05em; text-transform: uppercase;
-}
-.panel-icon {
-  width: 32px; height: 32px; border-radius: 11px; display: grid; place-items: center;
-  color: var(--green); background: rgba(101,223,186,.08);
-}
-.search-title { color: var(--green); font-weight: 850; margin-bottom: 18px; }
-.chips { display: flex; flex-wrap: wrap; gap: 10px; }
-.chip {
-  padding: 9px 11px; border: 1px solid rgba(101,223,186,.18); border-radius: 8px;
-  background: rgba(255,255,255,.025); font-size: .82rem;
-}
-.sector-list, .soft-list { display: grid; gap: 0; }
-.sector, .soft {
-  min-height: 43px; display: flex; align-items: center; gap: 11px;
-  border-bottom: 1px solid rgba(255,255,255,.065); color: #d9e0e8; font-size: .88rem;
-}
-.sector:last-child { border-bottom: 0; }
-.soft { border: 0; min-height: 36px; }
-.soft::before { content: "✓"; color: var(--green); }
-.expertise-columns {
-  display: grid; grid-template-columns: 1.05fr .95fr; gap: 24px;
-}
-.expertise-col + .expertise-col {
-  padding-left: 24px; border-left: 1px solid rgba(255,255,255,.12);
-}
-.expertise-col h3 {
-  margin: 0 0 14px; color: var(--green); font-size: .78rem; letter-spacing: .04em;
-  text-transform: uppercase;
-}
-.expertise-list { display: grid; gap: 13px; }
-.expertise-item {
-  display: flex; align-items: center; gap: 10px; color: #e0e6ed; font-size: .86rem;
-}
-.expertise-item::before {
-  content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--green);
-  box-shadow: 0 0 0 5px rgba(101,223,186,.05);
-}
-.software .expertise-item::before { background: var(--blue); }
-
-.profile360-section {
-  margin: 23px 0 60px; padding: 18px 0 0;
-  border: 1px solid var(--line); border-radius: 24px;
-  background:
-    radial-gradient(circle at 25% 55%, rgba(48,102,175,.08), transparent 32%),
-    linear-gradient(165deg, rgba(255,255,255,.032), rgba(255,255,255,.012));
-  overflow: hidden;
-}
-.profile360-head { padding: 0 28px; text-align: center; }
-.profile360-pill {
-  display: inline-flex; align-items: center; gap: 10px; padding: 8px 14px;
-  border: 1px solid var(--line); border-radius: 999px; color: #b9c7d7;
-  background: rgba(255,255,255,.025); font-size: .82rem;
-}
-.profile360-pill::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--blue); }
-.profile360-head h2 {
-  margin: 13px 0 8px; font-size: clamp(2.2rem, 4.2vw, 4.2rem); letter-spacing: -.045em;
-}
-.profile360-head h2 span { color: var(--blue); }
-.profile360-head p {
-  width: min(860px, 100%); margin: auto; color: var(--muted); line-height: 1.65;
-}
-.profile360-grid {
-  display: grid; grid-template-columns: 1.18fr .82fr; gap: 24px; padding: 34px 28px 28px;
-}
-.wheel-area {
-  min-height: 590px; position: relative; display: grid; grid-template-columns: 1fr 330px 1fr;
-  grid-template-rows: 1fr 1fr; gap: 20px 30px; align-items: center;
-}
-.domain-label {
-  border: 1px solid var(--line); border-radius: 17px; padding: 18px;
-  background: rgba(255,255,255,.02); transition: .25s ease; cursor: pointer;
-}
-.domain-label:hover, .domain-label.active {
-  transform: translateY(-2px); border-color: var(--domain);
-  box-shadow: 0 14px 38px color-mix(in srgb, var(--domain) 16%, transparent);
-}
-.domain-label h3 {
-  margin: 0 0 8px; color: var(--domain); font-size: .85rem; letter-spacing: .03em; text-transform: uppercase;
-}
-.domain-label p { margin: 0; color: #b9c4d0; font-size: .85rem; line-height: 1.52; }
-.domain-label[data-domain="project"] { --domain: var(--orange); grid-column: 1; grid-row: 1; }
-.domain-label[data-domain="finance"] { --domain: var(--blue); grid-column: 3; grid-row: 1; }
-.domain-label[data-domain="commercial"] { --domain: var(--purple); grid-column: 1; grid-row: 2; }
-.domain-label[data-domain="process"] { --domain: var(--green); grid-column: 3; grid-row: 2; }
-.wheel {
-  grid-column: 2; grid-row: 1 / 3; justify-self: center;
-  width: 330px; aspect-ratio: 1; border-radius: 50%; position: relative;
-  background: conic-gradient(var(--blue) 0 25%, var(--orange) 25% 50%, var(--purple) 50% 75%, var(--green) 75%);
-  box-shadow: 0 0 0 8px rgba(255,255,255,.025), 0 20px 55px rgba(0,0,0,.35);
-  overflow: hidden;
-}
-.wheel::before, .wheel::after {
-  content: ""; position: absolute; z-index: 4; background: rgba(7,14,25,.72);
-}
-.wheel::before { width: 2px; top: 0; bottom: 0; left: 50%; }
-.wheel::after { height: 2px; left: 0; right: 0; top: 50%; }
-.wheel-center {
-  position: absolute; inset: 36%; z-index: 8; border-radius: 50%; background: #f5f5f2;
-  color: #0d1724; display: grid; place-items: center; text-align: center;
-  font-weight: 900; font-size: 1.25rem; line-height: 1.05;
-  box-shadow: 0 5px 22px rgba(0,0,0,.25);
-}
-.quadrant {
-  position: absolute; width: 50%; height: 50%; z-index: 6; cursor: pointer;
-  display: grid; place-items: center; color: white; font-weight: 850; text-align: center;
-  transition: filter .22s ease, transform .22s ease;
-}
-.quadrant span { width: 75%; font-size: .79rem; text-shadow: 0 2px 8px rgba(0,0,0,.25); }
-.quadrant:hover, .quadrant.active { filter: brightness(1.16); }
-.quadrant.active { transform: scale(.965); }
-.q-finance { top: 0; right: 0; }
-.q-project { right: 0; bottom: 0; }
-.q-commercial { left: 0; bottom: 0; }
-.q-process { left: 0; top: 0; }
-
-.detail-card {
-  min-height: 590px; border: 1px solid var(--line); border-radius: 18px;
-  padding: 25px; background: linear-gradient(160deg, rgba(255,255,255,.055), rgba(255,255,255,.018));
-  transition: border-color .25s ease, box-shadow .25s ease;
-}
-.detail-card[data-color="blue"] { border-color: rgba(95,157,247,.34); box-shadow: 0 18px 55px rgba(95,157,247,.08); }
-.detail-card[data-color="green"] { border-color: rgba(101,223,186,.34); box-shadow: 0 18px 55px rgba(101,223,186,.08); }
-.detail-card[data-color="purple"] { border-color: rgba(188,112,242,.34); box-shadow: 0 18px 55px rgba(188,112,242,.08); }
-.detail-card[data-color="orange"] { border-color: rgba(240,170,42,.34); box-shadow: 0 18px 55px rgba(240,170,42,.08); }
-.detail-kicker { display: flex; justify-content: space-between; color: #9fb0c4; font-size: .75rem; }
-.detail-card h3 { margin: 21px 0 8px; font-size: 1.4rem; }
-.detail-card > p { color: #bdc8d4; font-size: .91rem; line-height: 1.58; }
-.metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; margin: 20px 0; }
-.metric-box {
-  border: 1px solid var(--line); border-radius: 12px; padding: 14px; background: rgba(0,0,0,.11);
-}
-.metric-box strong { display: block; font-size: 1.02rem; }
-.metric-box span { color: var(--muted); font-size: .75rem; }
-.detail-card h4 {
-  margin: 22px 0 10px; font-size: .76rem; text-transform: uppercase; letter-spacing: .08em;
-}
-.detail-list { display: grid; gap: 10px; padding: 0; margin: 0; list-style: none; }
-.detail-list li { position: relative; padding-left: 22px; color: #cbd4df; font-size: .86rem; }
-.detail-list li::before {
-  content: "●"; position: absolute; left: 0; color: var(--blue); font-size: .65rem; top: .22rem;
-}
-.contribution {
-  margin-top: 22px; border: 1px solid var(--line); border-radius: 13px; padding: 15px;
-  background: rgba(255,255,255,.025);
-}
-.contribution strong { display: block; margin-bottom: 5px; }
-.contribution span { color: var(--muted); font-size: .82rem; line-height: 1.5; }
-.transverse {
-  margin: 0 28px 28px; padding-top: 22px; border-top: 1px solid var(--line);
-}
-.transverse h3 { margin: 0 0 13px; font-size: .88rem; }
-.transverse-list { display: flex; gap: 9px; flex-wrap: wrap; }
-.transverse-list span {
-  padding: 8px 11px; border: 1px solid var(--line); border-radius: 999px;
-  background: rgba(255,255,255,.02); color: #c9d3df; font-size: .76rem;
-}
-
-@media (max-width: 1100px) {
-  .summary-grid { grid-template-columns: 1fr 1fr; }
-  .profile360-grid { grid-template-columns: 1fr; }
-  .wheel-area { grid-template-columns: 1fr 310px 1fr; }
-  .detail-card { min-height: auto; }
-}
-@media (max-width: 820px) {
-  .page { width: min(100% - 26px, 720px); }
-  .nav-links { display: none; }
-  .hero-grid { grid-template-columns: 1fr; }
-  h1 { font-size: clamp(4rem, 17vw, 7rem); }
-  .summary-grid { grid-template-columns: 1fr; }
-  .summary-panel { min-height: auto; }
-  .wheel-area { display: flex; flex-direction: column; min-height: auto; }
-  .wheel { order: 0; width: min(330px, 82vw); }
-  .domain-label { width: 100%; }
-  .detail-card { min-height: auto; }
-}
-@media (max-width: 560px) {
-  .badges { grid-template-columns: 1fr; }
-  .badge.wide { grid-column: auto; }
-  .expertise-columns { grid-template-columns: 1fr; }
-  .expertise-col + .expertise-col { border-left: 0; padding-left: 0; border-top: 1px solid var(--line); padding-top: 18px; }
-  .metric-grid { grid-template-columns: 1fr; }
-}
-
-/* Ajustements de la version complète */
-.badges{
-  grid-template-columns:repeat(2,minmax(0,1fr));
-}
-.badge.contact-badge{
-  min-width:0;
-}
-.badge.contact-badge:nth-last-child(-n+3){
-  grid-column:auto;
-}
-.search-chips{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:12px;
-  height:calc(100% - 54px);
-  align-content:stretch;
-}
-.search-chips .chip{
-  min-height:72px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  font-weight:800;
-  font-size:.9rem;
-}
-.quadrant{
-  appearance:none;
-  -webkit-appearance:none;
-  border:0;
-  padding:0;
-  margin:0;
-  background:transparent;
-}
-.interests-section{
-  margin:14px auto 24px;
-}
-.interests-head{
-  display:flex;
-  align-items:end;
-  justify-content:space-between;
-  gap:24px;
-  margin-bottom:16px;
-}
-.interests-head h2{
-  margin:4px 0 0;
-  font-size:clamp(1.8rem,3.4vw,3rem);
-  letter-spacing:-.045em;
-}
-.interests-head p{
-  max-width:620px;
-  margin:0;
-  color:var(--muted);
-}
-.interests-grid{
-  display:grid;
-  grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:16px;
-}
-.interest-card{
-  min-height:170px;
-  padding:22px;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  border:1px solid var(--line);
-  border-radius:18px;
-  background:linear-gradient(155deg,rgba(255,255,255,.055),rgba(255,255,255,.017));
-  box-shadow:0 15px 40px rgba(0,0,0,.18);
-  transition:.25s ease;
-}
-.interest-card:hover{
-  transform:translateY(-3px);
-  border-color:rgba(101,223,186,.32);
-}
-.interest-icon{
-  font-size:1.9rem;
-}
-.interest-card strong{
-  display:block;
-  margin-bottom:5px;
-  font-size:1.05rem;
-}
-.interest-card p{
-  margin:0;
-  color:var(--muted);
-  font-size:.84rem;
-  line-height:1.5;
-}
-
-/* Parcours */
-.pc-section{
-  width:min(1180px,calc(100% - 42px));
-  margin:34px auto 70px;
-}
-.pc-kicker{
-  color:var(--green);
-  text-transform:uppercase;
-  letter-spacing:.14em;
-  font-size:.74rem;
-  font-weight:850;
-}
-.pc-title{
-  margin:10px 0 14px;
-  font-size:clamp(2.8rem,6vw,5.4rem);
-  line-height:.94;
-  letter-spacing:-.058em;
-}
-.pc-intro{
-  max-width:840px;
-  margin:0 0 44px;
-  color:var(--muted);
-  line-height:1.72;
-}
-.pc-timeline{
-  position:relative;
-  padding-left:72px;
-}
-.pc-timeline::before{
-  content:"";
-  position:absolute;
-  left:23px;
-  top:18px;
-  bottom:18px;
-  width:2px;
-  background:linear-gradient(180deg,var(--orange),var(--blue),var(--purple),var(--green));
-  opacity:.78;
-}
-.pc-entry{
-  position:relative;
-  margin-bottom:26px;
-  --pc-accent:var(--green);
-}
-.pc-entry.basket{--pc-accent:var(--orange)}
-.pc-entry.formation{--pc-accent:var(--blue)}
-.pc-entry.master{--pc-accent:var(--purple)}
-.pc-entry.kermes{--pc-accent:var(--green)}
-.pc-entry.episaveurs{--pc-accent:#73a7ff}
-.pc-dot{
-  position:absolute;
-  left:-59px;
-  top:31px;
-  width:24px;
-  height:24px;
-  border-radius:50%;
-  border:2px solid var(--pc-accent);
-  background:#0a1423;
-  box-shadow:0 0 0 8px color-mix(in srgb,var(--pc-accent) 10%,transparent),
-             0 0 26px color-mix(in srgb,var(--pc-accent) 28%,transparent);
-}
-.pc-card{
-  overflow:hidden;
-  border:1px solid var(--line);
-  border-radius:24px;
-  background:linear-gradient(160deg,rgba(255,255,255,.055),rgba(255,255,255,.015));
-  box-shadow:var(--shadow);
-  transition:.3s ease;
-}
-.pc-card:hover{
-  transform:translateY(-2px);
-  border-color:color-mix(in srgb,var(--pc-accent) 36%,var(--line));
-}
-.pc-card.open{
-  border-color:color-mix(in srgb,var(--pc-accent) 56%,var(--line));
-}
-.pc-top{
-  display:grid;
-  grid-template-columns:1fr auto;
-  gap:18px;
-  padding:24px 26px 18px;
-}
-.pc-period{
-  color:var(--pc-accent);
-  font-size:.78rem;
-  font-weight:850;
-  letter-spacing:.09em;
-  text-transform:uppercase;
-}
-.pc-card-title{
-  margin:6px 0 4px;
-  font-size:clamp(1.4rem,2.5vw,2.08rem);
-  line-height:1.08;
-  letter-spacing:-.035em;
-}
-.pc-subtitle{
-  color:var(--muted);
-  font-size:.9rem;
-}
-.pc-tag{
-  align-self:start;
-  padding:8px 12px;
-  border:1px solid var(--line);
-  border-radius:999px;
-  color:#dce5ee;
-  background:rgba(255,255,255,.025);
-  font-size:.77rem;
-  font-weight:800;
-  white-space:nowrap;
-}
-.pc-summary{
-  padding:0 26px 22px;
-}
-.pc-label{
-  display:block;
-  margin-bottom:12px;
-  color:#8798aa;
-  text-transform:uppercase;
-  letter-spacing:.13em;
-  font-size:.67rem;
-  font-weight:850;
-}
-.pc-points{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:9px 22px;
-  margin:0;
-  padding:0;
-  list-style:none;
-}
-.pc-points li{
-  position:relative;
-  padding-left:18px;
-  color:#dfe7ef;
-  font-size:.9rem;
-  line-height:1.46;
-}
-.pc-points li::before{
-  content:"";
-  position:absolute;
-  left:0;
-  top:.64em;
-  width:6px;
-  height:6px;
-  border-radius:50%;
-  background:var(--pc-accent);
-}
-.pc-toggle{
-  width:calc(100% - 52px);
-  margin:0 26px 22px;
-  padding:13px 15px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:16px;
-  border:1px solid color-mix(in srgb,var(--pc-accent) 30%,transparent);
-  border-radius:14px;
-  background:linear-gradient(90deg,color-mix(in srgb,var(--pc-accent) 9%,transparent),rgba(255,255,255,.02));
-  color:var(--text);
-  font:inherit;
-  font-weight:800;
-  cursor:pointer;
-}
-.pc-toggle-icon{
-  width:30px;
-  height:30px;
-  flex:0 0 auto;
-  display:grid;
-  place-items:center;
-  border-radius:50%;
-  background:rgba(255,255,255,.05);
-  color:var(--pc-accent);
-  transition:transform .35s ease;
-}
-.pc-card.open .pc-toggle-icon{transform:rotate(180deg)}
-.pc-details{
-  display:grid;
-  grid-template-rows:0fr;
-  opacity:0;
-  visibility:hidden;
-  transition:grid-template-rows .45s ease,opacity .3s ease,visibility 0s linear .45s;
-}
-.pc-card.open .pc-details{
-  grid-template-rows:1fr;
-  opacity:1;
-  visibility:visible;
-  transition:grid-template-rows .45s ease,opacity .3s ease .08s,visibility 0s;
-}
-.pc-details-inner{
-  min-height:0;
-  overflow:hidden;
-}
-.pc-details-content{
-  border-top:1px solid var(--line);
-  padding:24px 26px 28px;
-}
-.pc-detail-grid{
-  display:grid;
-  grid-template-columns:1.1fr .9fr;
-  gap:16px;
-}
-.pc-block{
-  border:1px solid var(--line);
-  border-radius:17px;
-  padding:18px;
-  background:rgba(4,10,18,.26);
-}
-.pc-block h3{
-  margin:0 0 10px;
-  color:var(--pc-accent);
-  font-size:.73rem;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-}
-.pc-block p{
-  margin:0;
-  color:#bec9d5;
-  line-height:1.65;
-  font-size:.89rem;
-}
-.pc-missions{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:9px 16px;
-  margin:0;
-  padding:0;
-  list-style:none;
-}
-.pc-missions li{
-  position:relative;
-  padding-left:18px;
-  color:#d7e0e9;
-  font-size:.86rem;
-  line-height:1.45;
-}
-.pc-missions li::before{
-  content:"✓";
-  position:absolute;
-  left:0;
-  color:var(--pc-accent);
-  font-weight:900;
-}
-.pc-metrics{
-  display:grid;
-  gap:10px;
-}
-.pc-metric{
-  padding:13px;
-  border:1px solid color-mix(in srgb,var(--pc-accent) 18%,var(--line));
-  border-radius:13px;
-  background:linear-gradient(135deg,color-mix(in srgb,var(--pc-accent) 8%,transparent),rgba(255,255,255,.015));
-}
-.pc-metric strong{display:block;font-size:1.04rem}
-.pc-metric span{color:var(--muted);font-size:.78rem}
-.pc-takeaway{
-  margin-top:16px;
-  padding:17px 18px;
-  border-left:4px solid var(--pc-accent);
-  border-radius:0 15px 15px 0;
-  background:color-mix(in srgb,var(--pc-accent) 7%,rgba(255,255,255,.018));
-}
-.pc-takeaway strong{
-  display:block;
-  margin-bottom:6px;
-  color:#fff;
-  font-size:.78rem;
-  letter-spacing:.1em;
-  text-transform:uppercase;
-}
-.pc-takeaway p{
-  margin:0;
-  color:#c8d1db;
-  line-height:1.6;
-  font-size:.88rem;
-}
-.pc-progression{
-  margin-top:16px;
-  display:grid;
-  grid-template-columns:1fr auto 1fr;
-  gap:12px;
-  align-items:center;
-}
-.pc-step{
-  min-height:112px;
-  padding:16px;
-  border:1px solid var(--line);
-  border-radius:16px;
-  background:rgba(255,255,255,.025);
-}
-.pc-step strong{display:block;margin-bottom:7px}
-.pc-step span{color:var(--muted);font-size:.82rem;line-height:1.5}
-.pc-arrow{color:var(--pc-accent);font-size:1.6rem}
-
-.site-footer{
-  width:min(1180px,calc(100% - 42px));
-  margin:0 auto 38px;
-  padding:28px 0;
-  text-align:center;
-  color:var(--muted);
-  border-top:1px solid var(--line);
-}
-
-@media(max-width:1100px){
-  .interests-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-}
-@media(max-width:820px){
-  .interests-head{display:block}
-  .interests-head p{margin-top:10px}
-}
-@media(max-width:760px){
-  .pc-section{width:min(100% - 26px,720px)}
-  .pc-timeline{padding-left:42px}
-  .pc-timeline::before{left:12px}
-  .pc-dot{left:-40px;width:20px;height:20px}
-  .pc-top{grid-template-columns:1fr;padding:21px 19px 16px}
-  .pc-tag{justify-self:start}
-  .pc-summary{padding:0 19px 19px}
-  .pc-points,.pc-missions,.pc-detail-grid{grid-template-columns:1fr}
-  .pc-toggle{width:calc(100% - 38px);margin:0 19px 19px}
-  .pc-details-content{padding:21px 19px 23px}
-  .pc-progression{grid-template-columns:1fr}
-  .pc-arrow{transform:rotate(90deg);justify-self:center}
-}
-@media(max-width:560px){
-  .interests-grid{grid-template-columns:1fr}
-  .badges{grid-template-columns:1fr}
-}
-
-
-/* Mise à jour août 2026 */
-.search-chips-lines{
-  display:flex !important;
-  flex-direction:column;
-  gap:10px;
-  height:auto !important;
-  align-content:initial !important;
-}
-.search-chips-lines .chip{
-  min-height:46px !important;
-  width:100%;
-  justify-content:flex-start !important;
-  text-align:left !important;
-  padding:0 14px !important;
-}
-.interests-grid-detailed .interest-card{
-  min-height:185px;
-}
-.results-grid{
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:16px;
-}
-.result-card{
-  min-height:150px;
-  padding:24px;
-  border:1px solid var(--line);
-  border-radius:20px;
-  background:linear-gradient(155deg,rgba(255,255,255,.055),rgba(255,255,255,.017));
-  box-shadow:0 15px 40px rgba(0,0,0,.18);
-}
-.result-card strong{
-  display:block;
-  margin-bottom:10px;
-  font-size:clamp(2rem,4vw,3.2rem);
-  line-height:1;
-  letter-spacing:-.055em;
-  color:var(--green);
-}
-.result-card span{
-  color:var(--muted);
-  line-height:1.45;
-}
-.goals-grid{
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:16px;
-}
-.goal-card{
-  min-height:230px;
-  padding:24px;
-  border:1px solid var(--line);
-  border-radius:20px;
-  background:linear-gradient(155deg,rgba(255,255,255,.055),rgba(255,255,255,.017));
-  box-shadow:0 15px 40px rgba(0,0,0,.18);
-}
-.goal-step{
-  width:42px;
-  height:42px;
-  display:grid;
-  place-items:center;
-  border-radius:50%;
-  background:linear-gradient(120deg,var(--blue),var(--green));
-  color:#07111d;
-  font-weight:900;
-}
-.goal-card h3{
-  margin:18px 0 9px;
-  font-size:1.25rem;
-}
-.goal-card p{
-  margin:0;
-  color:var(--muted);
-  line-height:1.65;
-}
-@media(max-width:900px){
-  .results-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .goals-grid{grid-template-columns:1fr}
-}
-@media(max-width:560px){
-  .results-grid{grid-template-columns:1fr}
-}
-
-
-</style>
-  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-</head>
-<body>
-
-<nav class="nav">
-  <div class="page nav-inner">
-    <a class="brand" href="#top">Victor<span>.</span></a>
-    <div class="nav-links">
-      <a href="#profil">Profil 360</a>
-      <a href="#parcours">Parcours</a>
-      <a href="#resultats">Résultats</a>
-      <a href="#objectifs">Objectifs</a>
-    </div>
-  </div>
-</nav>
-
-
-<main id="top">
-<section class="hero">
-  <div class="page hero-grid">
-    <div>
-      <div class="status"><span class="status-dot"></span>Disponible pour une nouvelle opportunité</div>
-      <h1>Analyser.<br><span class="gradient">Optimiser.</span><br>Piloter.</h1>
-      <p class="hero-copy">
-        Profil polyvalent orienté données, reporting et amélioration des processus. Mon objectif : évoluer vers le contrôle de gestion en valorisant une expérience opérationnelle construite au contact du terrain, des équipes commerciales et des outils de pilotage.
-      </p>
-      <div class="actions">
-        <a class="btn primary" href="#profil">🚀 Découvrir mon parcours</a>
-        <a class="btn" href="mailto:victorgateau@gmail.com">✉ Me contacter</a>
-      </div>
-    </div>
-
-    <aside class="profile-card">
-      <div class="photo"><img src="assets/photo.png" alt="Portrait professionnel de Victor Gateau"></div>
-      <h2>Victor Gateau</h2>
-      <div class="profile-role">Analyse • Reporting • Process • <strong>Contrôle de gestion</strong></div>
-      <div class="badges">
-        <div class="badge wide"><span class="badge-icon">⌖</span>Paris 14 <span style="opacity:.25">|</span> 🚙 Mobilité Île-de-France</div>
-        <div class="badge"><span class="badge-icon">🎓</span>Bac+3 DCG</div>
-        <div class="badge"><span class="badge-icon">▣</span>Bac+5 Master<br>École de Commerce</div>
-        <div class="badge contact-badge"><span class="badge-icon">▦</span>31 ans</div>
-        <div class="badge contact-badge"><span class="badge-icon">◈</span>Profil MBTI : INTP</div>
-        <div class="badge contact-badge"><span class="badge-icon">✉</span>victorgateau@gmail.com</div>
-        <div class="badge contact-badge"><span class="badge-icon">☎</span>06 63 66 91 05</div>
-      </div>
-    </aside>
-  </div>
-
-  <div class="page">
-    <div class="summary-title">Executive summary</div>
-    <div class="summary-grid">
-      <article class="panel summary-panel">
-        <div class="panel-head"><span class="panel-icon">◎</span>Périmètre de recherche</div>
-        <div class="chips search-chips search-chips-lines">
-          <span class="chip">Contrôle de Gestion</span>
-          <span class="chip">Pricing Management</span>
-          <span class="chip">ADV</span>
-          <span class="chip">Comptabilité</span>
-        </div>
-      </article>
-
-      <article class="panel summary-panel">
-        <div class="panel-head"><span class="panel-icon">▦</span>Secteurs favoris</div>
-        <div class="sector-list">
-          <div class="sector">🚚 Transport</div><div class="sector">📦 Logistique</div>
-          <div class="sector">🏀 Sport</div><div class="sector">🎪 Événementiel</div>
-          <div class="sector">🎓 Éducation</div><div class="sector">💻 Tech</div>
-        </div>
-      </article>
-
-      <article class="panel summary-panel">
-        <div class="panel-head"><span class="panel-icon">ϟ</span>Expertises</div>
-        <div class="expertise-columns">
-          <div class="expertise-col">
-            <h3>Compétences</h3>
-            <div class="expertise-list">
-              <div class="expertise-item">Reporting</div>
-              <div class="expertise-item">Analyse de données</div>
-              <div class="expertise-item">Pilotage de la performance</div>
-              <div class="expertise-item">Optimisation des processus</div>
-              <div class="expertise-item">Automatisation</div>
-              <div class="expertise-item">Amélioration continue</div>
-            </div>
-          </div>
-          <div class="expertise-col software">
-            <h3>Logiciels</h3>
-            <div class="expertise-list">
-              <div class="expertise-item">SAP ERP</div><div class="expertise-item">SAP BI</div>
-              <div class="expertise-item">Odoo</div><div class="expertise-item">Pack Office</div>
-              <div class="expertise-item">Zapier</div><div class="expertise-item">Zapier</div>
-              <div class="expertise-item">Qlikview</div><div class="expertise-item">Qweekle</div>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <article class="panel summary-panel">
-        <div class="panel-head"><span class="panel-icon">☆</span>Soft skills</div>
-        <div class="soft-list">
-          <div class="soft">Proactivité</div><div class="soft">Polyvalence</div>
-          <div class="soft">Esprit d’analyse</div><div class="soft">Rigueur</div>
-          <div class="soft">Gestion du stress</div><div class="soft">Esprit d’équipe</div>
-        </div>
-      </article>
-    </div>
-  </div>
-</section>
-
-
-
-<section class="page interests-section" id="centres-interet">
-  <div class="interests-head">
-    <div>
-      <div class="summary-title" style="margin-top:0">Centres d’intérêt</div>
-      <h2>Ce qui nourrit mon équilibre</h2>
-    </div>
-    <p>Quatre univers qui reflètent ma curiosité, ma discipline et mon goût pour les projets concrets.</p>
-  </div>
-  <div class="interests-grid interests-grid-detailed">
-    <article class="interest-card detailed">
-      <span class="interest-icon">🏀</span>
-      <div>
-        <strong>Sport & Santé</strong>
-        <p>Basket, football, cyclisme, musculation, cardio et alimentation.</p>
-      </div>
-    </article>
-    <article class="interest-card detailed">
-      <span class="interest-icon">🎮</span>
-      <div>
-        <strong>Création de projets</strong>
-        <p>Jeux de société, jeux de cartes numériques, applications et escape games.</p>
-      </div>
-    </article>
-    <article class="interest-card detailed">
-      <span class="interest-icon">📈</span>
-      <div>
-        <strong>Business</strong>
-        <p>Économie, entrepreneuriat et finance.</p>
-      </div>
-    </article>
-    <article class="interest-card detailed">
-      <span class="interest-icon">💻</span>
-      <div>
-        <strong>Digital</strong>
-        <p>Outils de productivité, jeux vidéo, technologies et intelligence artificielle.</p>
-      </div>
-    </article>
-  </div>
-</section>
-
-
-<section class="page profile360-section" id="profil">
-  <div class="profile360-head">
-    <div class="profile360-pill">Un profil polyvalent et adaptable</div>
-    <h2>Un profil <span>360°</span> au service de la performance</h2>
-    <p>Mon parcours m’a permis de développer une vision complète de l’entreprise, mêlant compétences financières, opérationnelles, commerciales et techniques. Survolez ou sélectionnez un domaine pour afficher son contenu détaillé.</p>
-  </div>
-
-  <div class="profile360-grid">
-    <div class="wheel-area">
-      <article class="domain-label" data-domain="project" tabindex="0">
-        <h3>Projet & coordination</h3>
-        <p>Organisation, paramétrage et optimisation d’outils pour structurer l’activité.</p>
-      </article>
-      <article class="domain-label" data-domain="finance" tabindex="0">
-        <h3>Comptabilité & administratif</h3>
-        <p>Fondamentaux comptables, gestion administrative et fiabilisation des données.</p>
-      </article>
-      <article class="domain-label" data-domain="commercial" tabindex="0">
-        <h3>Commercial & relationnel</h3>
-        <p>Suivi client, litiges, relation partenaires et vision business concrète.</p>
-      </article>
-      <article class="domain-label" data-domain="process" tabindex="0">
-        <h3>Pilotage & process</h3>
-        <p>Analyse, reporting et automatisation au service de la performance.</p>
-      </article>
-
-      <div class="wheel" aria-label="Profil 360 interactif">
-        <button class="quadrant q-process active" data-domain="process"><span>Pilotage<br>& Process</span></button>
-        <button class="quadrant q-finance" data-domain="finance"><span>Comptabilité<br>& Administratif</span></button>
-        <button class="quadrant q-project" data-domain="project"><span>Projet<br>& Coordination</span></button>
-        <button class="quadrant q-commercial" data-domain="commercial"><span>Commercial<br>& Relationnel</span></button>
-        <div class="wheel-center">PROFIL<br>360°</div>
-      </div>
-    </div>
-
-    <aside class="detail-card" id="domain-detail" data-color="green">
-      <div class="detail-kicker"><span id="detail-count">01 / 04</span><span>Profil 360°</span></div>
-      <h3 id="detail-title">Pilotage & Process</h3>
-      <p id="detail-description">Analyse de données, reporting, tableaux de bord et optimisation des processus pour améliorer la performance.</p>
-      <div class="metric-grid" id="detail-metrics"></div>
-      <h4>Missions et savoir-faire</h4>
-      <ul class="detail-list" id="detail-list"></ul>
-      <div class="contribution">
-        <strong>Apport</strong>
-        <span id="detail-contribution">Transformer des données opérationnelles en décisions concrètes et en gains de productivité mesurables.</span>
-      </div>
-    </aside>
-  </div>
-</section>
-
-
-<section class="pc-section" id="parcours">
-  <div class="pc-kicker">Parcours</div>
-  <h2 class="pc-title">Une évolution construite étape par étape</h2>
-  <p class="pc-intro">Une lecture rapide des étapes clés, avec la possibilité de développer chaque carte pour découvrir le contexte, les missions, les chiffres marquants et ce que chaque expérience m’a apporté.</p>
-
-  <div class="pc-timeline">
-
-    <article class="pc-entry basket">
-      <span class="pc-dot"></span>
-      <div class="pc-card">
-        <div class="pc-top">
-          <div><div class="pc-period">2006 — 2012</div><h3 class="pc-card-title">Basket de haut niveau</h3><div class="pc-subtitle">Sélections départementales et régionales · Pôle Espoirs Amiens · Championnats de France</div></div>
-          <span class="pc-tag">Discipline & autonomie</span>
-        </div>
-        <div class="pc-summary"><span class="pc-label">À retenir</span><ul class="pc-points">
-          <li>Passion structurante dès l’adolescence</li><li>Vie en internat et responsabilités très jeunes</li><li>Exigence et discipline du haut niveau</li><li>Autonomie, pression et esprit d’équipe</li>
-        </ul></div>
-        <button class="pc-toggle" type="button" aria-expanded="false"><span>Découvrir cette étape</span><span class="pc-toggle-icon">⌄</span></button>
-        <div class="pc-details"><div class="pc-details-inner"><div class="pc-details-content">
-          <div class="pc-block"><h3>Contexte</h3><p>Le basket a été ma première école. Très jeune, j’ai intégré un environnement exigeant avec la vie en internat, des entraînements réguliers, des déplacements et la nécessité de concilier études et sport.</p></div>
-          <div class="pc-takeaway"><strong>Ce que j’en retiens</strong><p>Discipline, autonomie, gestion de la pression, goût de l’effort et travail collectif.</p></div>
-        </div></div></div>
-      </div>
-    </article>
-
-    <article class="pc-entry formation">
-      <span class="pc-dot"></span>
-      <div class="pc-card">
-        <div class="pc-top">
-          <div><div class="pc-period">2012 — 2017</div><h3 class="pc-card-title">Bac S · DCG · DSCG en alternance</h3><div class="pc-subtitle">Cabinet Alexco · Cabinet d’expertise comptable</div></div>
-          <span class="pc-tag">Bases techniques</span>
-        </div>
-        <div class="pc-summary"><span class="pc-label">À retenir</span><ul class="pc-points">
-          <li>Profil naturellement orienté mathématiques et analyse</li><li>Apprentissage solide en comptabilité et gestion</li><li>Deux années d’alternance en cabinet</li><li>Déclic sur le besoin d’un environnement plus stimulant</li>
-        </ul></div>
-        <button class="pc-toggle" type="button" aria-expanded="false"><span>Voir le contexte et les missions</span><span class="pc-toggle-icon">⌄</span></button>
-        <div class="pc-details"><div class="pc-details-inner"><div class="pc-details-content">
-          <div class="pc-detail-grid">
-            <div class="pc-block"><h3>Contexte</h3><p>Naturellement attiré par les matières analytiques, je me suis orienté vers la comptabilité et la finance. Cette formation m’a donné une base technique exigeante et structurée. Mon alternance m’a aussi permis de comprendre que l’expertise comptable ne correspondait pas à ce qui me motivait au quotidien : j’avais besoin d’un environnement plus dynamique, plus proche du terrain et des décisions.</p></div>
-            <div class="pc-block"><h3>Missions en cabinet</h3><ul class="pc-missions">
-              <li>Saisie comptable</li><li>Contrôle des pièces</li><li>Rapprochements bancaires</li><li>Déclarations de TVA</li><li>Révision comptable</li><li>Préparation des bilans</li><li>Suivi de dossiers clients</li><li>Classement et justification</li>
-            </ul></div>
-          </div>
-          <div class="pc-takeaway"><strong>Ce que j’en retiens</strong><p>Une rigueur durable et une compréhension solide des mécanismes comptables, toujours utiles dans mes analyses et mes outils de pilotage.</p></div>
-        </div></div></div>
-      </div>
-    </article>
-
-    <article class="pc-entry master">
-      <span class="pc-dot"></span>
-      <div class="pc-card">
-        <div class="pc-top">
-          <div><div class="pc-period">2018 — 2020</div><h3 class="pc-card-title">Master École de Commerce</h3><div class="pc-subtitle">Sport · Business · Stratégie · Management</div></div>
-          <span class="pc-tag">Vision business</span>
-        </div>
-        <div class="pc-summary"><span class="pc-label">À retenir</span><ul class="pc-points">
-          <li>Élargir ma vision au-delà de la comptabilité</li><li>Approche plus business et stratégique</li><li>Renouer avec ma passion pour le sport</li><li>Développer une compréhension globale de l’entreprise</li>
-        </ul></div>
-        <button class="pc-toggle" type="button" aria-expanded="false"><span>Découvrir cette étape</span><span class="pc-toggle-icon">⌄</span></button>
-        <div class="pc-details"><div class="pc-details-inner"><div class="pc-details-content">
-          <div class="pc-block"><h3>Contexte</h3><p>J’ai choisi une école de commerce afin d’élargir ma compréhension de l’entreprise et de sortir d’une approche uniquement comptable. Le secteur du sport me permettait également de renouer avec une passion forte, tout en développant des compétences en stratégie, marketing et management.</p></div>
-          <div class="pc-takeaway"><strong>Ce que j’en retiens</strong><p>Une vision plus globale de l’entreprise, capable de relier les chiffres aux enjeux commerciaux, opérationnels et stratégiques.</p></div>
-        </div></div></div>
-      </div>
-    </article>
-
-    <article class="pc-entry kermes">
-      <span class="pc-dot"></span>
-      <div class="pc-card">
-        <div class="pc-top">
-          <div><div class="pc-period">2020 — 2025</div><h3 class="pc-card-title">Kermes Club</h3><div class="pc-subtitle">De stagiaire animateur & commercial à Responsable Back Office</div></div>
-          <span class="pc-tag">Évolution interne</span>
-        </div>
-        <div class="pc-summary"><span class="pc-label">À retenir</span><ul class="pc-points">
-          <li>Entrée comme stagiaire animateur et commercial</li><li>Évolution vers Responsable Back Office</li><li>Forte autonomie et missions très variées</li><li>Gestion, facturation, outils, KPI et coordination</li>
-        </ul></div>
-        <button class="pc-toggle" type="button" aria-expanded="false"><span>Voir le contexte, l’évolution et les missions</span><span class="pc-toggle-icon">⌄</span></button>
-        <div class="pc-details"><div class="pc-details-inner"><div class="pc-details-content">
-          <div class="pc-detail-grid">
-            <div class="pc-block"><h3>Contexte et évolution</h3><p>J’ai rejoint Kermes Club dans le cadre de mon stage de Master comme animateur et commercial. Cette immersion terrain m’a permis de comprendre rapidement l’activité et d’être identifié pour ma polyvalence et ma capacité à structurer les processus.</p>
-              <div class="pc-progression">
-                <div class="pc-step"><strong>Stagiaire</strong><span>Animation, commercial, relation client et découverte des opérations.</span></div>
-                <div class="pc-arrow">→</div>
-                <div class="pc-step"><strong>Responsable Back Office</strong><span>Gestion administrative, facturation, Odoo, KPI, coordination et amélioration des process.</span></div>
-              </div>
-            </div>
-            <div class="pc-block"><h3>Missions principales</h3><ul class="pc-missions">
-              <li>Paramétrage d’Odoo</li><li>Gestion du CRM</li><li>Facturation clients</li><li>Suivi des encaissements</li><li>Prévisionnels de CA</li><li>Création de KPI</li><li>Tableaux de bord</li><li>Gestion administrative</li><li>Coordination des équipes</li><li>Suivi des partenaires</li><li>Gestion de projets</li><li>Optimisation des processus</li>
-            </ul></div>
-          </div>
-          <div class="pc-detail-grid" style="margin-top:16px">
-            <div class="pc-block"><h3>Chiffres clés</h3><div class="pc-metrics">
-              <div class="pc-metric"><strong>50 à 300</strong><span>factures suivies chaque mois</span></div>
-              <div class="pc-metric"><strong>5 ans</strong><span>d’évolution au sein de la structure</span></div>
-              <div class="pc-metric"><strong>Odoo + QuickBooks</strong><span>outils de gestion et de dématérialisation</span></div>
-            </div></div>
-            <div class="pc-block"><h3>Impact</h3><p>Structuration des outils, meilleure visibilité sur l’activité, centralisation du suivi commercial et administratif, et contribution directe au fonctionnement quotidien de l’entreprise.</p></div>
-          </div>
-          <div class="pc-takeaway"><strong>Ce que j’en retiens</strong><p>Cette expérience m’a permis de développer une vision à 360° de l’entreprise et a confirmé que je m’épanouis dans des environnements dynamiques, polyvalents et responsabilisants.</p></div>
-        </div></div></div>
-      </div>
-    </article>
-
-    <article class="pc-entry episaveurs">
-      <span class="pc-dot"></span>
-      <div class="pc-card">
-        <div class="pc-top">
-          <div><div class="pc-period">2025 — Aujourd’hui</div><h3 class="pc-card-title">Episaveurs · Groupe Pomona</h3><div class="pc-subtitle">Administrateur des ventes · Succursale de Wissous</div></div>
-          <span class="pc-tag">Grand groupe</span>
-        </div>
-        <div class="pc-summary"><span class="pc-label">À retenir</span><ul class="pc-points">
-          <li>Découverte d’une organisation structurée</li><li>Volumes de données importants</li><li>Reporting, tableaux de bord et VBA</li><li>Tremplin vers un rôle plus analytique et enrichissant</li>
-        </ul></div>
-        <button class="pc-toggle" type="button" aria-expanded="false"><span>Voir le contexte, les missions et les chiffres clés</span><span class="pc-toggle-icon">⌄</span></button>
-        <div class="pc-details"><div class="pc-details-inner"><div class="pc-details-content">
-          <div class="pc-detail-grid">
-            <div class="pc-block"><h3>Contexte</h3><p>Rejoindre Episaveurs m’a permis de découvrir le fonctionnement d’un grand groupe, avec des processus structurés, des volumes importants et des outils de pilotage exigeants. Cette expérience constitue aujourd’hui un tremplin vers un poste où je pourrai mobiliser pleinement mes compétences analytiques.</p></div>
-            <div class="pc-block"><h3>Missions principales</h3><ul class="pc-missions">
-              <li>Reporting quotidien</li><li>Reporting mensuel</li><li>Création de tableaux de bord</li><li>Optimisation de reportings</li><li>Analyse du chiffre d’affaires</li><li>Analyse des marges</li><li>Détection d’anomalies</li><li>Gestion tarifaire</li><li>Consolidation de données</li><li>Automatisation VBA</li><li>Support aux commerciaux</li><li>Outils d’aide à la décision</li>
-            </ul></div>
-          </div>
-          <div class="pc-detail-grid" style="margin-top:16px">
-            <div class="pc-block"><h3>Chiffres clés</h3><div class="pc-metrics">
-              <div class="pc-metric"><strong>20+</strong><span>tableaux de bord créés et optimisés</span></div>
-              <div class="pc-metric"><strong>400 000+</strong><span>lignes tarifaires traitées</span></div>
-              <div class="pc-metric"><strong>30 commerciaux</strong><span>accompagnés par les outils et reportings</span></div>
-              <div class="pc-metric"><strong>250 à 400</strong><span>e-mails automatisés</span></div>
-              <div class="pc-metric"><strong>3 jours → 0,5 jour</strong><span>sur un processus de révision tarifaire</span></div>
-            </div></div>
-            <div class="pc-block"><h3>Impact</h3><p>Des données plus fiables, des traitements plus rapides et une meilleure visibilité pour les équipes commerciales et la direction sur l’activité, les marges et les anomalies.</p></div>
-          </div>
-          <div class="pc-takeaway"><strong>Ce que j’en retiens</strong><p>Cette expérience me donne les méthodes et les repères d’un grand groupe, tout en renforçant mon envie d’évoluer vers un poste de contrôle de gestion plus proche de l’analyse et de la décision.</p></div>
-        </div></div></div>
-      </div>
-    </article>
-
-  </div>
-</section>
-
-
-<section class="pc-section" id="resultats">
-  <div class="pc-kicker">Impact</div>
-  <h2 class="pc-title">Des résultats concrets</h2>
-  <p class="pc-intro">Des réalisations mesurables qui illustrent ma capacité à fiabiliser les données, gagner du temps et améliorer le pilotage.</p>
-  <div class="results-grid">
-    <article class="result-card">
-      <strong>20+</strong>
-      <span>tableaux de bord créés et optimisés</span>
-    </article>
-    <article class="result-card">
-      <strong>5000+</strong>
-      <span>références gérées</span>
-    </article>
-    <article class="result-card">
-      <strong>400 000+</strong>
-      <span>lignes tarifaires traitées</span>
-    </article>
-    <article class="result-card">
-      <strong>3 jours → 0,5 jour</strong>
-      <span>sur un processus de révision tarifaire</span>
-    </article>
-    <article class="result-card">
-      <strong>250 à 400</strong>
-      <span>e-mails automatisés</span>
-    </article>
-    <article class="result-card">
-      <strong>50+</strong>
-      <span>utilisateurs</span>
-    </article>
-  </div>
-</section>
-
-<section class="pc-section" id="objectifs">
-  <div class="pc-kicker">Objectifs</div>
-  <h2 class="pc-title">Une trajectoire claire</h2>
-  <p class="pc-intro">Une évolution progressive vers des fonctions de pilotage financier à plus forte responsabilité.</p>
-  <div class="goals-grid">
-    <article class="goal-card">
-      <span class="goal-step">01</span>
-      <h3>Court terme</h3>
-      <p>Intégrer un poste comportant une part significative de contrôle de gestion, de reporting et d’analyse de la performance.</p>
-    </article>
-    <article class="goal-card">
-      <span class="goal-step">02</span>
-      <h3>Moyen terme</h3>
-      <p>Devenir Contrôleur de gestion confirmé, autonome sur un périmètre et force de proposition auprès des opérationnels.</p>
-    </article>
-    <article class="goal-card">
-      <span class="goal-step">03</span>
-      <h3>Long terme</h3>
-      <p>Évoluer vers un poste de Responsable Contrôle de gestion ou Responsable Financier.</p>
-    </article>
-  </div>
-</section>
-
-<footer class="site-footer">© 2026 Victor Gateau — CV interactif</footer>
-
-<section id="contact" style="height:30px"></section>
-</main>
-
-<script>
-const domains = {
-  process: {
-    count: "01 / 04",
-    title: "Pilotage & Process",
-    color: "green",
-    description: "Analyse de données, reporting, tableaux de bord et optimisation des processus pour améliorer la performance.",
-    metrics: [["8+", "Tableaux de bord créés ou optimisés"], ["3 à 8x", "Gain de temps sur plusieurs missions"]],
-    list: ["Création et optimisation de tableaux de bord", "Analyse des marges et des KPI", "Automatisation sur Excel et VBA", "Contrôle et fiabilisation des données", "Amélioration continue des processus", "Aide à la décision opérationnelle"],
-    contribution: "Transformer des données opérationnelles en décisions concrètes et en gains de productivité mesurables."
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#173c2d"><title>Urban Race — Explorez autrement</title><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><style>
+:root{--green:#17613f;--lime:#dcf48b;--ink:#14281f;--muted:#68766d;--line:#e3e9e3}*{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,sans-serif;color:var(--ink);background:#edf1e9}button,input{font:inherit}button{cursor:pointer;border:0}button:focus-visible,input:focus-visible{outline:3px solid #78b64b;outline-offset:3px}button:disabled{opacity:.5;cursor:default}[hidden]{display:none!important}#map{position:fixed;inset:0;z-index:0}.top{position:fixed;z-index:500;top:max(16px,env(safe-area-inset-top));left:16px;right:16px;display:flex;gap:12px;align-items:center}.brand{font-size:20px;letter-spacing:-1px;font-weight:900;display:flex;align-items:center;gap:10px}.symbol{background:var(--ink);color:var(--lime);border-radius:13px;width:40px;height:40px;display:grid;place-items:center;font-size:26px}.glass{background:#fffffff2;box-shadow:0 6px 30px #14281f12;backdrop-filter:blur(12px);border:1px solid #fff}.topbar{border-radius:20px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:22px;flex:1}.icon{height:44px;min-width:44px;border-radius:14px;background:#f0f3ed;color:var(--ink);font-size:22px}.eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:1.8px;font-weight:800;color:var(--muted)}.hud{position:fixed;z-index:450;top:94px;left:16px;right:16px;border-radius:20px;padding:16px 18px;display:grid;grid-template-columns:1fr auto;gap:10px}.hud h1{font-size:17px;margin:3px 0}.time{font-variant-numeric:tabular-nums;font-size:20px;font-weight:750;text-align:right}.track{height:5px;background:#e7ecdf;border-radius:9px;grid-column:1/-1;overflow:hidden}.track span{display:block;height:100%;background:var(--green);transition:width .4s}.gps{position:fixed;top:205px;left:16px;z-index:450;background:white;border-radius:30px;padding:9px 13px;font-size:11px;font-weight:650;max-width:calc(100% - 85px)}.controls{position:fixed;right:16px;bottom:240px;z-index:450;display:grid;gap:8px}.controls button{background:white;box-shadow:0 3px 15px #14281f18}.bottom{position:fixed;bottom:max(18px,env(safe-area-inset-bottom));left:16px;right:16px;z-index:500;border-radius:24px;padding:18px}.row{display:flex;align-items:center;justify-content:space-between;gap:12px}.bottom h2{font-size:20px;margin:5px 0 10px}.primary{background:var(--green);color:white;border-radius:15px;padding:15px 18px;font-weight:750;min-height:48px}.secondary{background:#edf2e7;color:var(--ink);border-radius:15px;padding:14px 18px;font-weight:700;min-height:48px}.wide{width:100%}.muted{color:var(--muted);font-size:13px;line-height:1.6}#navigation{font-size:13px;margin:0 0 14px}.arrow{display:inline-block;color:var(--green);font-size:19px;margin-right:8px}dialog{border:0;padding:0;color:var(--ink);background:#fbfcf8;box-shadow:0 20px 80px #14281f30;width:min(100% - 24px,480px);border-radius:28px;max-height:85dvh}dialog::backdrop{background:#10241966;backdrop-filter:blur(4px)}.sheet{margin:auto auto 0;border-radius:28px 28px 0 0;width:min(100%,520px);padding-bottom:env(safe-area-inset-bottom)}.handle{width:40px;height:4px;border-radius:9px;background:#d4dbd1;margin:10px auto}.dialog-head{padding:16px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line)}.dialog-head h2{margin:3px 0;font-size:23px}.content{padding:22px;overflow:auto;max-height:65dvh}.clue{padding:18px;background:white;border:1px solid var(--line);border-radius:20px;margin-bottom:12px}.clue p{font-size:14px;line-height:1.65}.clue .row strong{font-size:15px}.badge{font-size:10px;text-transform:uppercase;letter-spacing:.8px;padding:6px 9px;border-radius:20px;background:#edf2e7;color:var(--green);font-weight:800}.clue.selected{border-color:var(--green)}.hero{background:var(--ink);color:white;border-radius:22px;padding:24px;margin:16px 0}.hero .eyebrow{color:var(--lime)}.hero h2{font-size:34px;line-height:1.08;letter-spacing:-1px;margin:16px 0}.hero p{color:#d2dccf;line-height:1.6;font-size:14px}.hero-art{height:100px;position:relative;overflow:hidden;border-radius:14px;background:repeating-linear-gradient(135deg,#294735 0 22px,#34573f 22px 24px);display:flex;align-items:center;justify-content:space-evenly;color:var(--lime);font-size:28px}.hero-art span{border:2px solid var(--lime);border-radius:50%;padding:8px;font-size:16px}.actions{display:grid;gap:10px;margin-top:20px}input{width:100%;padding:16px;border:1px solid #bac7ba;border-radius:14px;background:white;margin-top:10px;font-size:18px}.feedback{color:#a13924;font-size:14px;min-height:20px}.success-mark{width:64px;height:64px;background:var(--lime);border-radius:50%;display:grid;place-items:center;font-size:32px;margin-bottom:20px}.pin{background:var(--green);color:white;border:3px solid white;box-shadow:0 2px 8px #14281f33;border-radius:50%;display:grid;place-items:center;font:bold 12px system-ui}.pin.locked{background:var(--ink)}.player{background:#17613f;border:4px solid white;border-radius:50%;box-shadow:0 0 0 8px #17613f30}#notice{position:fixed;z-index:900;top:250px;left:16px;right:16px;background:#fff8dc;border-radius:14px;padding:12px;font-size:13px}.leaflet-control-attribution{font-size:9px!important}.leaflet-bottom{bottom:0}.demo-bar{color:#805117;background:#fff3d7;padding:12px;border-radius:14px;font-size:12px;margin-bottom:14px}@media(min-width:700px){.top,.hud,.bottom{width:390px;right:auto;left:28px}.top{top:24px}.hud{top:110px}.gps{left:28px;top:223px}.bottom{bottom:28px}.controls{bottom:50px;right:28px}.sheet{margin:auto 0 auto auto;height:100dvh;max-height:100dvh;border-radius:28px 0 0 28px}.sheet .content{max-height:85dvh}#notice{left:28px;width:390px;top:270px}}@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+@media(max-width:360px){.brand{font-size:17px;gap:6px}.topbar{gap:8px;padding:9px}.bottom .eyebrow{letter-spacing:.8px;font-size:9px}.hud{padding:14px}.time{font-size:18px}}
+.sector-pin{background:none;border:0}.sector-pin span{display:flex;align-items:center;justify-content:center;width:36px;height:36px;border:3px solid white;border-radius:50%;color:white;box-shadow:0 2px 9px #14281f40;font:bold 12px system-ui}.sector-legend{position:fixed;z-index:450;left:16px;top:247px;display:flex;gap:10px;background:#fffffff2;padding:10px 12px;border-radius:14px;font-size:11px;font-weight:700;box-shadow:0 3px 15px #14281f12}.sector-legend span:before{content:'';display:inline-block;width:8px;height:8px;margin-right:4px;border-radius:50%;background:var(--sector)}#notice{top:294px}@media(min-width:700px){.sector-legend{left:28px;top:267px}#notice{top:314px}}
+/* Écran de jeu compact : la carte reste prioritaire. */
+.hud{top:calc(env(safe-area-inset-top) + 10px);left:10px;right:10px;width:auto;padding:10px 12px 8px;border-radius:16px;grid-template-columns:1fr 1fr 1.1fr;gap:7px}.stat{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0}.stat+.stat{border-left:1px solid var(--line)}.stat .eyebrow{font-size:9px;letter-spacing:1px;white-space:nowrap}.stat strong{font-size:17px;font-variant-numeric:tabular-nums;white-space:nowrap}.track{height:3px}.bottom{left:12px;right:12px;width:auto;bottom:calc(env(safe-area-inset-bottom) + 22px);padding:0;background:none;border:0;box-shadow:none}.map-actions{display:flex;align-items:center;justify-content:center;gap:10px}#indices{min-height:48px;padding:12px 24px;border-radius:30px;box-shadow:0 4px 20px #14281f25}.map-actions .icon{width:48px;height:48px;border-radius:50%}#navigation{margin:0 auto 10px;max-width:380px;border-radius:15px;padding:10px 14px;font-size:12px;line-height:1.5}.controls{right:12px;bottom:calc(env(safe-area-inset-bottom) + 100px);gap:6px}.controls .icon{height:40px;min-width:40px;border-radius:50%}#notice{top:calc(env(safe-area-inset-top) + 90px);left:12px;right:12px;width:auto}.sheet .content{max-height:60dvh}.sheet .dialog-head{padding:12px 18px}.sheet .dialog-head h2{font-size:21px}@media(min-width:700px){.hud{left:28px;right:auto;width:380px}.bottom{left:28px;right:auto;width:380px}.controls{right:28px;bottom:40px}#notice{left:28px;width:380px}.sheet .content{max-height:80dvh}}
+#joker-button{border-radius:30px;padding:12px 16px;box-shadow:0 4px 20px #14281f20}#indices{padding:12px 18px}.map-actions{gap:7px}.clue.discovered,dialog.discovered{background:#e3f3df}.compass-joker{display:inline-flex;gap:12px;align-items:center}.compass-joker small{display:block;color:var(--muted);font-size:10px}.compass-dial{display:inline-block;width:52px;height:52px;border:1px solid #c4d9bd;border-radius:50%;background:#f1f8ed}.compass-dial svg{width:100%;height:100%}#joker-options select{display:block;width:100%;font:inherit;padding:12px;margin-bottom:12px;border:1px solid var(--line);border-radius:12px;background:white}#joker-live{line-height:1.8}
+.has-target{position:relative;padding-left:70px}.joker-target{position:absolute;left:16px;top:20px;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;color:white;font-weight:800;border:2px solid white;box-shadow:0 2px 7px #14281f20}
+</style></head><body>
+<div id="map" aria-label="Carte de la quête"></div><section class="hud glass" aria-label="Statistiques de la quête"><div class="stat"><span class="eyebrow">Balises</span><strong id="progress">0 / 16</strong></div><div class="stat"><span class="eyebrow">Chrono</span><strong id="chrono">00:00</strong></div><div class="stat"><span class="eyebrow">Précision GPS</span><strong id="gps" role="status">En attente</strong></div><div class="track" role="progressbar" aria-label="Balises découvertes" aria-valuemin="0" aria-valuemax="16" aria-valuenow="0"><span id="fill"></span></div></section><div id="notice" role="status" hidden></div><div class="controls"><button class="icon" id="locate" aria-label="Recentrer sur ma position">◎</button><button class="icon" id="zoom-in" aria-label="Zoom avant">+</button><button class="icon" id="zoom-out" aria-label="Zoom arrière">−</button></div>
+<section class="bottom"><div class="map-actions"><button class="primary" id="indices" aria-haspopup="dialog">☷ Les indices</button><button class="secondary" id="joker-button" aria-haspopup="dialog">✦ Jokers</button><button class="icon glass" id="menu" aria-label="Menu et quêtes">☰</button></div><span id="target" hidden></span></section>
+<dialog id="welcome"><div class="content"><div class="brand"><span class="symbol">↗</span>URBAN RACE.</div><p class="muted">La ville est votre terrain de jeu.</p><div class="hero"><div class="eyebrow">Quête 01 · Paris, 14e</div><h2>Un parc.<br>16 secrets.<br>Votre aventure.</h2><div class="hero-art" aria-hidden="true"><span>01</span>····↗····<span>16</span></div><h3>Parc Montsouris</h3><p>Suivez les indices, approchez-vous des balises et résolvez les défis pour découvrir le parc autrement.</p><span class="badge">16 balises · GPS · À pied</span></div><p class="muted">Le chrono continue pendant votre absence. Votre progression est sauvegardée sur cet appareil.</p><div class="actions"><button class="primary" id="start">Commencer la quête ↗</button><button class="secondary" id="demo">Essayer en mode démo</button></div></div></dialog>
+<dialog id="sheet" class="sheet"><div class="handle"></div><div class="dialog-head"><div><div class="eyebrow">Carnet d'exploration</div><h2>Les indices</h2></div><button class="icon" data-close aria-label="Fermer les indices">×</button></div><div class="content" id="clues"></div></dialog>
+<dialog id="joker-dialog"><div class="dialog-head"><h2>Vos jokers</h2><button class="icon" data-close aria-label="Fermer les jokers">×</button></div><div class="content"><p class="muted">Un Lasso et une Boussole par quête. Choisissez une balise : le joker restera lié à celle-ci jusqu’à sa découverte.</p><div id="joker-options"></div><div id="joker-live"></div></div></dialog><dialog id="detail"><div class="dialog-head"><span class="eyebrow" id="detail-label"></span><button class="icon" data-close aria-label="Fermer">×</button></div><div class="content" id="detail-body"></div></dialog>
+<dialog id="settings"><div class="dialog-head"><h2>Votre aventure</h2><button class="icon" data-close aria-label="Fermer le menu">×</button></div><div class="content"><span class="badge" id="mode">Sur le terrain</span><p class="eyebrow">Quête active</p><h2>Parc Montsouris</h2><p class="muted">Urban Race accueille vos parcours. Montsouris est la première quête.</p><div class="actions"><button class="primary" id="switch-mode">Changer de mode</button><button class="secondary" id="reset">Recommencer cette partie</button></div></div></dialog>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script>
+'use strict';
+const QUESTS={montsouris:{id:'montsouris',title:'Parc Montsouris',center:[48.822,2.337],zones:
+[
+  {
+    id: 0,
+    lat: 48.8171,
+    lng: 2.3328,
+    radius: 10,
+    found: false,
+    description: "Cherche le grand point d’eau au centre du parc.",
+    info: "Le lac du parc Montsouris est l’un des grands repères du parc. Il attire de nombreux oiseaux et sert de point central d’orientation.",
+    password: "victor"
   },
-  finance: {
-    count: "02 / 04",
-    title: "Comptabilité & Administratif",
-    color: "blue",
-    description: "Des bases solides en comptabilité, gestion administrative, suivi financier et contrôle de la qualité des données.",
-    metrics: [["2 ans", "En cabinet d’expertise comptable"], ["DCG", "Comptabilité et gestion"]],
-    list: ["Saisie et révision comptable", "Déclarations de TVA", "Rapprochements bancaires", "Facturation et suivi clients", "Contrôle et justification des comptes", "Suivi administratif et financier"],
-    contribution: "Une compréhension fiable des flux financiers et des exigences de rigueur nécessaires au pilotage d’une activité."
+  {
+    id: 1,
+    lat: 48.8209,
+    lng: 2.33714,
+    radius: 10,
+    found: false,
+    description: "Je suis percée d’un œil vers le ciel, vestige d’un Paris scientifique. Vous me trouverez près d'un sentier qui vous évoque le nord de l'Afrique.",
+    info: "Cette mire était utilisée au XIXe siècle pour aligner les télescopes de l’Observatoire de Paris avec le méridien de Paris. Elle fait partie des rares vestiges du système de mesure pré-Greenwich."
   },
-  commercial: {
-    count: "03 / 04",
-    title: "Commercial & Relationnel",
-    color: "purple",
-    description: "Une expérience terrain construite au contact des clients, partenaires, commerciaux et responsables opérationnels.",
-    metrics: [["1 000+", "Clients et partenaires accompagnés"], ["5 ans", "Dans une structure événementielle"]],
-    list: ["Suivi de la relation client", "Gestion des litiges et relances", "Coordination avec les équipes commerciales", "Analyse du chiffre d’affaires", "Suivi du taux de conversion", "Interface avec les partenaires"],
-    contribution: "Relier l’analyse aux réalités commerciales pour proposer des outils utiles, compréhensibles et directement actionnables."
+  {
+    id: 2,
+    lat: 48.82407,
+    lng: 2.33645,
+    radius: 10,
+    found: false,
+    description: "Depuis la Colonne de la Paix Armée vous pouvez me voir. Vous pourrez débloquer la balise en vous approchant assez pour indiquer l'heure.",
+    info: "La Colonnne de la Paix armée est une statue allégorique, déplacée ici depuis l’Esplanade des Invalides, symbolisant la force tranquille. Elle date du Second Empire."
   },
-  project: {
-    count: "04 / 04",
-    title: "Projet & Coordination",
-    color: "orange",
-    description: "Structuration d’outils, coordination transverse et conduite d’actions permettant d’organiser et de sécuriser l’activité.",
-    metrics: [["Odoo / CRM", "Paramétrage et structuration"], ["Multi-acteurs", "Coordination interne et externe"]],
-    list: ["Paramétrage d’Odoo et de CRM", "Organisation et planification", "Coordination de prestataires", "Appels d’offres et suivi de projets", "Conception d’outils internes", "Accompagnement au changement"],
-    contribution: "Structurer les besoins, fluidifier la coordination et faire aboutir des projets concrets dans des environnements polyvalents."
+  {
+    id: 3,
+    lat: 48.821941,
+    lng: 2.336215,
+    radius: 10,
+    found: false,
+    description: "Si vous remontez l'allée du Puits vous me verrez abandonnée. Depuis ma position faites quelques pas au sud, jusqu'à trouver un séquoia singulier",
+    info: ""
+  },
+  {
+    id: 4,
+    lat: 48.824110,
+    lng: 2.33827,
+    radius: 10,
+    found: false,
+    description: "Non loin de moi vous trouverez un fauve dans ces derniers instants. Pour ma part, je suis aux pieds d'une jeune fille courtisée. Quel animal suis-je?",
+    info: "Cette statue met en scène un faune, créature mythologique romaine séduisant une jeune fille délicate évoquant l’émotion à la fois physique et psychologique du frisson. Elle date du début XXe siècle.",
+    password: "mouton"
+  },
+  {
+    id: 5,
+    lat: 48.8225,
+    lng: 2.338830,
+    radius: 10,
+    found: false,
+    description: "Trouvez les deux soeurs de pierre qui prennent le soleil",
+    info: "Une œuvre décorative typique des jardins publics du XIXe siècle, inspirée par les nymphes et la mythologie."
+  },
+  {
+    id: 6,
+    lat: 48.822215,
+    lng: 2.33957,
+    radius: 10,
+    found: false,
+    description: "Si vous aimez danser vous nous trouverez plus haut perchés.",
+    info: "La Statue Les Naufragés, réalisée en marbre en 1859, est une sculpture située dans le Parc Montsouris. Créée par Antoine Étex, elle représente un groupe de naufragés dans une scène dramatique."
+  },
+  {
+    id: 7,
+    lat: 48.82219,
+    lng: 2.33707,
+    radius: 8,
+    found: false,
+    description: "Je suis davantage connue pour ma contine pour enfants mais ici vous me trouvez pour vous rassasier. A quelques pas à l'ouest se trouve la sculpture que vous cherchez.",
+    info: "Le Drame du Désert est une représentation de 1891 par Georges Gardet sculptée d’un combat entre une lionne et un serpent."
+  },
+  {
+    id: 8,
+    lat: 48.82096,
+    lng: 2.33828,
+    radius: 10,
+    found: false,
+    description: "Trouvez la statue ci-dessous et complètez la phrase: Les ......... de France de france à la ville de Paris pour son Bimillennaire",
+    info: "Figure féminine idéalisée, symbole d’innocence et d’esthétique classique dans un contexte romantique.",
+    password: "hellenes"
+  },
+  {
+    id: 9,
+    lat: 48.82063,
+    lng: 2.34071,
+    radius: 10,
+    found: false,
+    description: "Si vous remontez l'allée du Lac depuis l'entrée sud-est vous me trouverez rapidement sur votre gauche portant mon camarade blessé.",
+    info: "Avant d'être un parc, la plaine Montsouris était occupée par les carrières de Montrouge. Ce passé laissa des traces, et les concepteurs durent composer avec un sous-sol complexe."
+  },
+  {
+    id: 10,
+    lat: 48.82069,
+    lng: 2.33818,
+    radius: 10,
+    found: false,
+    description: "En quelle année est mort le général San Martin. Trouvez le sur son cheval et vous trouverez la réponse",
+    info: "Libérateur de l’Argentine, San Martín est célébré ici par la diaspora argentine de Paris, en hommage à sa lutte pour l’indépendance.",
+    password: "1850"
+  },
+  {
+    id: 11,
+    lat: 48.82023,
+    lng: 2.33993,
+    radius: 20,
+    found: false,
+    description: "Je fus un des principaux artisans de la révolution américaine et on m'a d'ailleurs placé près de là où se joue un sport américain. Trouvez moi et indiquez mon année de naissance",
+    info: "Thomas Paine fut l’un des penseurs majeurs des révolutions américaine et française. Il incarne l’idée d’un monde régi par la raison.",
+    password: "1737"
+  },
+  {
+    id: 12,
+    lat: 48.82135,
+    lng: 2.33673,
+    radius: 10,
+    found: false,
+    description: "Ma tête est dans les nuages, mes yeux mesurent le vent. Viens me trouver au sommet, là où la science regarde le ciel.",
+    info: "Fondé en 1878, cet observatoire analyse la météo parisienne depuis plus d’un siècle."
+  },
+  {
+    id: 13,
+    lat: 48.821820,
+    lng: 2.340625,
+    radius: 10,
+    found: false,
+    description: "Je gis là au nord-ouest de celle que l'on serre au pantalon.",
+    info: "La Petite Ceinture passe par le parc Montsouris. Fermée au service régulier des voyageurs depuis 1934, elle marque encore le paysage du parc."
+  },
+  {
+    id: 14,
+    lat: 48.821957,
+    lng: 2.3379,
+    radius: 10,
+    found: false,
+    description: "Je suis l'homonyme de Brigitte et si vous prenez mon allée, vous trouverez celui que vous cherchez les branches couchées.",
+    info: ""
+  },
+  {
+    id: 15,
+    lat: 48.822975,
+    lng: 2.337413,
+    radius: 10,
+    found: false,
+    description: "Je me situe au nord du monument en hommage à Flatters. Je fais 25m de haut et 335cm de circonférence.",
+    info: ""
   }
-};
+]}};
+// Secteurs de jeu : cinq balises chacun ; le départ 0 reste hors secteur.
+QUESTS.montsouris.boundarySource='https://www.openstreetmap.org/relation/4050160';
+QUESTS.montsouris.boundary=[[48.8205364,2.3387217],[48.8205191,2.3387111],[48.8205116,2.3386913],[48.8208395,2.3372006],[48.820844,2.3371815],[48.8208484,2.3371593],[48.8213257,2.3350037],[48.8213713,2.334791],[48.8214188,2.3345777],[48.8214213,2.3345662],[48.8214508,2.3345469],[48.8214862,2.3345223],[48.821698,2.33463],[48.8222834,2.3350076],[48.8229559,2.3354393],[48.8231724,2.335579],[48.8234531,2.3357559],[48.8240341,2.3361217],[48.82409,2.3362269],[48.8241454,2.3363343],[48.8242511,2.3372728],[48.8242907,2.3376245],[48.8245151,2.3396107],[48.8244575,2.3397443],[48.8244421,2.3397796],[48.8244041,2.3398662],[48.8242484,2.3399245],[48.8228916,2.3404315],[48.821164,2.341072],[48.8200087,2.3415005],[48.819985,2.3414669],[48.8199562,2.3414256],[48.8200264,2.3408859],[48.8202354,2.33994],[48.8202388,2.3399252],[48.8203363,2.3394837],[48.8203892,2.3392429],[48.8203951,2.3392159],[48.8203996,2.3391956],[48.8204107,2.3391451],[48.8205542,2.3391933],[48.8206283,2.3391888],[48.8206279,2.3391285],[48.8206281,2.3391224],[48.8206283,2.3391069],[48.8206286,2.3390881],[48.8206289,2.3390718],[48.820629,2.3390646],[48.820631,2.3389597],[48.8206312,2.3389517],[48.8206315,2.338934],[48.820632,2.3389061],[48.8206322,2.3388956],[48.8206179,2.338895],[48.8206184,2.338842],[48.8206336,2.3387727]];
+QUESTS.montsouris.sectors=[
+ {id:'blue',name:'Zone bleue',color:'#2674d9',ids:[2,4,5,6,15],latitudeRange:[48.82220,90]},
+ {id:'green',name:'Zone verte',color:'#20834b',ids:[3,7,12,13,14],latitudeRange:[48.8211,48.82220]},
+ {id:'red',name:'Zone rouge',color:'#d74742',ids:[1,8,9,10,11],latitudeRange:[-90,48.8211]}
+];
+const sectorOf=z=>QUESTS.montsouris.sectors.find(s=>s.ids.includes(z.id));
+const colorOf=z=>sectorOf(z)?.color||'#263d34';
+const labelOf=z=>sectorOf(z)?.name||'Départ · hors zone';
+// Découpe un contour de quête par latitude, en conservant exactement ses bords.
+function clipLatitude(ring,limit,keepNorth){const result=[];for(let i=0;i<ring.length;i++){const a=ring[i],b=ring[(i+1)%ring.length];const inside=p=>keepNorth?p[0]>=limit:p[0]<=limit;const ai=inside(a),bi=inside(b);if(ai)result.push(a);if(ai!==bi){const t=(limit-a[0])/(b[0]-a[0]);result.push([limit,a[1]+t*(b[1]-a[1])]);}}return result;}
+function sectorPolygon(boundary,sector){return clipLatitude(clipLatitude(boundary,sector.latitudeRange[0],true),sector.latitudeRange[1],false);}
+function drawSectors(){quest.sectors.forEach(s=>L.polygon(sectorPolygon(quest.boundary,s),{color:s.color,weight:2,fillColor:s.color,fillOpacity:.16,interactive:false}).addTo(map));L.polygon(quest.boundary,{color:'#263d34',weight:2,fill:false,interactive:false}).addTo(map);map.fitBounds(L.latLngBounds(quest.boundary),{padding:[35,35]});}
 
-let selectedDomain = "process";
-const detailCard = document.getElementById("domain-detail");
-const title = document.getElementById("detail-title");
-const desc = document.getElementById("detail-description");
-const count = document.getElementById("detail-count");
-const metrics = document.getElementById("detail-metrics");
-const list = document.getElementById("detail-list");
-const contribution = document.getElementById("detail-contribution");
-const interactive = [...document.querySelectorAll("[data-domain]")];
+const $=id=>document.getElementById(id),quest=QUESTS.montsouris,zones=quest.zones;
+let demo=false,state,position=null,map,player,accuracyCircle,watchId=null,markers={},queue=[],active=null,selected=null;
+const key=()=>`urbanRace.v1.${quest.id}.${demo?'demo':'live'}`;
+const empty=()=>({found:[],unlocked:[],startTime:null,endTime:null,jokers:{lasso:null,compass:null}});
+function notice(t){$('notice').textContent=t;$('notice').hidden=!t}
+function save(){try{localStorage.setItem(key(),JSON.stringify(state))}catch{notice('Sauvegarde indisponible : gardez cette page ouverte pour conserver la partie.')}}
+function load(){state=empty();try{let raw=localStorage.getItem(key());let data=raw?JSON.parse(raw):null;if(!data&&!demo){const old=JSON.parse(localStorage.getItem('progressionJeu')||'null');if(old)data={found:(old.zones||[]).filter(z=>z.found).map(z=>z.id),startTime:old.startTime}}if(data){for(const type of ['lasso','compass']){const id=data.jokers?.[type];if(Number.isInteger(id)&&zones.some(z=>z.id===id))state.jokers[type]=id;}state.found=[...new Set((data.found||[]).filter(id=>zones.some(z=>z.id===id)))];state.unlocked=[...new Set((data.unlocked||[]).filter(id=>zones.some(z=>z.id===id)))];state.startTime=Number.isFinite(data.startTime)&&data.startTime>0?Math.min(data.startTime,Date.now()):null;state.endTime=Number.isFinite(data.endTime)&&data.endTime>=state.startTime?Math.min(data.endTime,Date.now()):null;if(state.found.length===zones.length&&!state.endTime)state.endTime=Date.now()}}catch{notice('La sauvegarde est illisible. Une nouvelle partie est disponible.')}selected=null;queue=[];active=null}
+const found=z=>state.found.includes(z.id);
+function elapsed(){const n=state.startTime?Math.floor(((state.endTime||Date.now())-state.startTime)/1000):0;return `${String(Math.floor(n/60)).padStart(2,'0')}:${String(n%60).padStart(2,'0')}`}
+function render(){const n=state.found.length;$('progress').textContent=`${n} / ${zones.length}`;$('fill').style.width=`${n/zones.length*100}%`;document.querySelector('[role=progressbar]').setAttribute('aria-valuenow',n);$('chrono').textContent=elapsed();$('mode').textContent=demo?'Mode démo':'Sur le terrain';$('target').textContent=n===zones.length?'Quête accomplie !':selected!==null?`En route vers la balise ${selected}`:'À vous de tracer la suite.';navigation();renderMarkers()}
+function distance(a,b){const rad=x=>x*Math.PI/180;const dlat=rad(b.lat-a.lat),dlng=rad(b.lng-a.lng);const h=Math.sin(dlat/2)**2+Math.cos(rad(a.lat))*Math.cos(rad(b.lat))*Math.sin(dlng/2)**2;return 6371000*2*Math.atan2(Math.sqrt(h),Math.sqrt(Math.max(0,1-h)))}
+function bearing(a,b){const r=Math.PI/180,d=(b.lng-a.lng)*r;return (Math.atan2(Math.sin(d)*Math.cos(b.lat*r),Math.cos(a.lat*r)*Math.sin(b.lat*r)-Math.sin(a.lat*r)*Math.cos(b.lat*r)*Math.cos(d))/r+360)%360}
+let compassHeading=null,orientationListening=false;
+function onOrientation(e){if(Number.isFinite(e.webkitCompassHeading))compassHeading=e.webkitCompassHeading;else if(e.absolute&&Number.isFinite(e.alpha))compassHeading=(360-e.alpha)%360;else return;navigation();}
+async function enableCompass(){try{if(typeof DeviceOrientationEvent!=='undefined'&&typeof DeviceOrientationEvent.requestPermission==='function'){const result=await DeviceOrientationEvent.requestPermission();if(result!=='granted')return;}if(!orientationListening){window.addEventListener('deviceorientationabsolute',onOrientation);window.addEventListener('deviceorientation',onOrientation);orientationListening=true;}}catch{}navigation();}
+function useJoker(type,z){if(!['lasso','compass'].includes(type)||state.jokers[type]!==null||found(z))return;state.jokers[type]=z.id;save();render();jokerOptions();if(type==='compass')enableCompass();}
+function jokerOptions(){const root=$('joker-options');root.replaceChildren();for(const [type,label] of [['lasso','Lasso'],['compass','Boussole']]){const card=document.createElement('section');card.className='clue';const h=document.createElement('h3');h.textContent=label;card.append(h);const target=state.jokers[type];if(target!==null){const badge=document.createElement('span');badge.className='joker-target';badge.style.background=colorOf(zones.find(z=>z.id===target));badge.textContent=target;badge.setAttribute('aria-label',`Balise ${target}`);card.classList.add('has-target');card.prepend(badge);if(state.found.includes(target)){const status=document.createElement('p');status.textContent='Découverte';card.append(status);}if(type==='compass'&&!state.found.includes(target)){const retry=document.createElement('button');retry.className='secondary wide';retry.textContent='Activer l’orientation du téléphone';retry.onclick=enableCompass;card.append(retry);}}else{const select=document.createElement('select');select.setAttribute('aria-label',`Balise pour ${label}`);zones.filter(z=>!found(z)).forEach(z=>{const option=document.createElement('option');option.value=z.id;option.textContent=`Balise ${z.id} · ${labelOf(z)}`;select.append(option)});const button=document.createElement('button');button.className='primary wide';button.textContent=`Utiliser ${label} · 1 disponible`;button.disabled=!select.options.length;button.onclick=()=>useJoker(type,zones.find(z=>z.id===Number(select.value)));card.append(select,button);}root.append(card);}navigation();}
+function navigation(){const parts=[];for(const [type,label] of [['lasso','Lasso'],['compass','Boussole']]){const id=state.jokers[type];if(id===null||state.found.includes(id))continue;const z=zones.find(z=>z.id===id);if(!position){parts.push(`<span>${label} · balise ${id} : en attente du GPS</span>`);continue;}if(type==='lasso')parts.push(`<span>Lasso · balise ${id} : <strong>${Math.round(distance(position,z))} m</strong></span>`);else{const angle=(bearing(position,z)-(compassHeading??0)+360)%360;parts.push(`<span class="compass-joker"><span class="compass-dial" role="img" aria-label="Direction vers la balise ${id}"><svg viewBox="0 0 60 60" style="transform:rotate(${angle}deg)" aria-hidden="true"><path d="M30 5L45 46L30 37L15 46Z" fill="#17613f"/></svg></span><span>Boussole · balise ${id}<small>${compassHeading===null?'Repère : nord en haut de la carte':'Orientation du téléphone'}</small></span></span>`);}}const html=state.found.length===zones.length?`16 découvertes en ${elapsed()}. Bravo !`:parts.join('<br>');$('joker-live').innerHTML=parts.join('<br>');}
 
-function renderDomain(key, persist = false) {
-  const d = domains[key];
-  if (!d) return;
-  if (persist) selectedDomain = key;
+function renderMarkers(){if(!map)return;zones.forEach(z=>{if(markers[z.id]){map.removeLayer(markers[z.id]);delete markers[z.id];}if(!found(z))return;markers[z.id]=L.marker([z.lat,z.lng],{title:`${labelOf(z)} · Balise ${z.id}${found(z)?' · découverte':''}`,icon:L.divIcon({className:'sector-pin',html:`<span style="background:${colorOf(z)}">${found(z)?'✓ ':''}${z.id}</span>`,iconSize:[36,36],iconAnchor:[18,18]})}).addTo(map).on('click',()=>{selected=z.id;render();showZone(z)})})}
 
-  detailCard.dataset.color = d.color;
-  count.textContent = d.count;
-  title.textContent = d.title;
-  desc.textContent = d.description;
-  contribution.textContent = d.contribution;
-  metrics.innerHTML = d.metrics.map(([value,label]) =>
-    `<div class="metric-box"><strong>${value}</strong><span>${label}</span></div>`
-  ).join("");
-  list.innerHTML = d.list.map(item => `<li>${item}</li>`).join("");
-
-  interactive.forEach(el => el.classList.toggle("active", el.dataset.domain === key));
-}
-
-interactive.forEach(el => {
-  const key = el.dataset.domain;
-  el.addEventListener("mouseenter", () => renderDomain(key));
-  el.addEventListener("focus", () => renderDomain(key));
-  el.addEventListener("click", () => renderDomain(key, true));
-  el.addEventListener("keydown", e => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      renderDomain(key, true);
-    }
-  });
-  el.addEventListener("mouseleave", () => renderDomain(selectedDomain));
-  el.addEventListener("blur", () => renderDomain(selectedDomain));
-});
-
-renderDomain(selectedDomain, true);
-
-
-const pcCards = [...document.querySelectorAll(".pc-card")];
-pcCards.forEach(card => {
-  const button = card.querySelector(".pc-toggle");
-  const label = button.querySelector("span:first-child");
-  button.dataset.defaultLabel = label.textContent;
-
-  button.addEventListener("click", () => {
-    const willOpen = !card.classList.contains("open");
-
-    pcCards.forEach(other => {
-      if (other !== card) {
-        other.classList.remove("open");
-        const otherButton = other.querySelector(".pc-toggle");
-        otherButton.setAttribute("aria-expanded", "false");
-        otherButton.querySelector("span:first-child").textContent = otherButton.dataset.defaultLabel;
-      }
-    });
-
-    card.classList.toggle("open", willOpen);
-    button.setAttribute("aria-expanded", String(willOpen));
-    label.textContent = willOpen ? "Masquer le détail" : button.dataset.defaultLabel;
-  });
-});
-
-</script>
-</body>
-</html>
+function openDialog(id){$(id).showModal()}
+function clues(){const root=$('clues');root.replaceChildren();const help=document.createElement('p');help.className='muted';help.textContent='Deux jokers pour toute la quête : Lasso indique la distance, Boussole la direction. Chacun s’active une seule fois, sur la balise de votre choix, et reste lié à celle-ci jusqu’à sa découverte.';root.append(help);if(demo){const note=document.createElement('p');note.className='demo-bar';note.textContent='Démo : simulez une arrivée à chaque balise. La progression réelle reste séparée.';root.append(note)}zones.forEach(z=>{const item=document.createElement('article');item.className='clue'+(found(z)?' discovered':'')+(selected===z.id?' selected':'');item.style.borderLeft=`4px solid ${colorOf(z)}`;item.innerHTML=`<div class="row"><strong>Balise ${String(z.id).padStart(2,'0')}<small style="display:block;color:${colorOf(z)};margin-top:4px">${labelOf(z)}</small></strong><span class="badge">${found(z)?'Découverte':state.unlocked.includes(z.id)?'Défi accessible':'À explorer'}</span></div>`;const p=document.createElement('p');p.textContent=found(z)?z.info||'Balise découverte.':z.description;item.append(p);if(found(z)||state.unlocked.includes(z.id)){const b=document.createElement('button');b.className='secondary wide';b.textContent=found(z)?'Voir la découverte':'Ouvrir le défi';b.onclick=()=>{$('sheet').close();showZone(z)};item.append(b);}if(demo&&!found(z)){const sim=document.createElement('button');sim.className='primary wide';sim.style.marginTop='8px';sim.textContent='Simuler mon arrivée';sim.onclick=()=>{$('sheet').close();receive(z.lat,z.lng,3)};item.append(sim)}root.append(item)})}
+function showZone(z,celebrate=false){$('detail').classList.toggle('discovered',found(z));if(!found(z)&&!state.unlocked.includes(z.id)){if($('detail').open)$('detail').close();$('detail-label').textContent=`${labelOf(z)} · Balise ${z.id}`;const body=$('detail-body');body.replaceChildren();const h=document.createElement('h2');h.textContent=z.id===0?'Le point de départ':'Votre prochain indice';const p=document.createElement('p');p.className='muted';p.textContent=z.description;const info=document.createElement('p');info.className='muted';info.textContent='Approchez-vous de la balise pour débloquer sa découverte ou son défi.';const button=document.createElement('button');button.className='primary wide';button.textContent='Fermer';button.onclick=()=>{$('detail').close()};body.append(h,p,info,button);openDialog('detail');return;}if($('detail').open)$('detail').close();active=z.id;$('detail-label').textContent=`${labelOf(z)} · Balise ${String(z.id).padStart(2,'0')}`;const body=$('detail-body');body.replaceChildren();if(found(z)){body.innerHTML=`<div class="success-mark">✓</div><div class="eyebrow">${celebrate?'Nouvelle découverte':'Dans votre carnet'}</div><h2>${state.found.length===zones.length?'Les 16 secrets sont à vous.':'Bien joué, explorateur.'}</h2>`;const p=document.createElement('p');p.className='muted';p.textContent=z.info||(state.found.length===zones.length?'Vous avez découvert toutes les balises de cette quête. Votre temps final est sauvegardé.':'Cette balise est maintenant dans votre carnet. Poursuivez votre exploration !');body.append(p);const b=document.createElement('button');b.className='primary wide';b.textContent=state.found.length===zones.length?`Terminer · ${elapsed()}`:'Continuer l’exploration ↗';b.onclick=()=>$('detail').close();body.append(b)}else{body.innerHTML='<span class="badge">Vous êtes arrivé</span><h2>À vous de jouer.</h2>';const p=document.createElement('p');p.className='muted';p.textContent=z.description;body.append(p);const form=document.createElement('form');form.innerHTML='<label for="answer">Votre réponse</label><input id="answer" name="answer" autocomplete="off" autocapitalize="none" required placeholder="Entrez le code…"><p class="feedback" role="status" id="feedback"></p><button class="primary wide">Valider ma réponse ↗</button>';form.onsubmit=e=>{e.preventDefault();if($('answer').value.trim().toLowerCase()===z.password.toLowerCase()){validate(z);showZone(z,true)}else{$('feedback').textContent='Ce n’est pas le bon code. Regardez autour de vous et réessayez.';$('answer').select()}};body.append(form)}openDialog('detail')}
+function validate(z){if(found(z))return;state.found.push(z.id);if(state.found.length===zones.length)state.endTime=Date.now();if(selected===z.id)selected=null;save();render();if(navigator.vibrate)navigator.vibrate(150)}
+function next(){if(document.querySelector('dialog[open]'))return;const event=queue.shift();if(event)showZone(zones.find(z=>z.id===event.id),event.celebrate)}
+function checkZones(){zones.forEach(z=>{if(found(z)||distance(position,z)>=z.radius)return;if(z.password){if(!state.unlocked.includes(z.id)){state.unlocked.push(z.id);save();renderMarkers();queue.push({id:z.id})}}else{validate(z);queue.push({id:z.id,celebrate:true})}});next()}
+function receive(lat,lng,accuracy){position={lat,lng};$('gps').textContent=demo?'Démo':`±${Math.round(accuracy)} m`;
+if(map){if(!player){player=L.marker([lat,lng],{icon:L.divIcon({className:'player',iconSize:[24,24]})}).addTo(map);accuracyCircle=L.circle([lat,lng],{radius:accuracy,color:'#17613f',weight:1,fillOpacity:.08}).addTo(map);map.setView([lat,lng],17)}else{player.setLatLng([lat,lng]);accuracyCircle.setLatLng([lat,lng]).setRadius(accuracy)}}navigation();checkZones()}
+function gps(){if(demo)return;if(watchId!==null)navigator.geolocation.clearWatch(watchId);if(!navigator.geolocation){$('gps').textContent='Indisponible';return}watchId=navigator.geolocation.watchPosition(p=>receive(p.coords.latitude,p.coords.longitude,p.coords.accuracy),e=>{$('gps').textContent=e.code===1?'Refusé':'Introuvable';notice(e.code===1?'Autorisez la localisation puis appuyez sur ◎.':'GPS introuvable : appuyez sur ◎ pour réessayer.')},{enableHighAccuracy:true,maximumAge:0,timeout:15000})}
+function begin(isDemo){if(watchId!==null){navigator.geolocation.clearWatch(watchId);watchId=null}demo=isDemo;load();Object.values(markers).forEach(m=>map?.removeLayer(m));markers={};if(player)map.removeLayer(player);if(accuracyCircle)map.removeLayer(accuracyCircle);player=accuracyCircle=null;position=null;if(!state.startTime)state.startTime=Date.now();save();$('welcome').close();render();if(demo){$('gps').textContent='Démo'}else gps()}
+$('joker-button').onclick=()=>{jokerOptions();openDialog('joker-dialog')};$('indices').onclick=()=>{clues();openDialog('sheet')};$('menu').onclick=()=>{openDialog('settings')};$('start').onclick=()=>begin(false);$('demo').onclick=()=>begin(true);$('switch-mode').onclick=()=>{$('settings').close();openDialog('welcome')};$('reset').onclick=()=>{$('settings').close();$('detail').classList.remove('discovered');$('detail-label').textContent='Nouvelle partie';$('detail-body').innerHTML='<h2>Repartir de zéro ?</h2><p class="muted">Les balises et le chrono de cette partie seront réinitialisés.</p><div class="actions"><button class="primary" id="confirm-reset">Oui, recommencer</button><button class="secondary" id="cancel-reset">Garder ma progression</button></div>';openDialog('detail');$('cancel-reset').onclick=()=>$('detail').close();$('confirm-reset').onclick=()=>{state=empty();state.startTime=Date.now();queue=[];selected=null;Object.values(markers).forEach(m=>map?.removeLayer(m));markers={};save();render();$('detail').close()}};
+document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>b.closest('dialog').close());document.querySelectorAll('dialog').forEach(d=>d.addEventListener('close',()=>setTimeout(next,0)));$('welcome').addEventListener('cancel',e=>{if(!state.startTime)e.preventDefault()});$('locate').onclick=()=>{if(position&&map)map.setView([position.lat,position.lng],18);if(!demo)gps()};$('zoom-in').onclick=()=>map?.zoomIn();$('zoom-out').onclick=()=>map?.zoomOut();
+load();if(window.L){map=L.map('map',{zoomControl:false}).setView(quest.center,17);const tiles=L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{subdomains:'abcd',maxZoom:20,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'}).addTo(map);drawSectors();tiles.on('tileerror',()=>notice('Le fond de carte ne se charge pas. Vérifiez votre connexion puis rechargez la page.'))}else notice('La bibliothèque cartographique ne se charge pas. Vérifiez votre connexion puis rechargez la page.');render();$('start').textContent=state.startTime?'Reprendre ma quête ↗':'Commencer la quête ↗';openDialog('welcome');setInterval(()=>{$('chrono').textContent=elapsed()},1000);window.addEventListener('pagehide',()=>{if(state.startTime)save()});
+</script></body></html>
